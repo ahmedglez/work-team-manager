@@ -1,0 +1,38 @@
+{
+	"name": "workgroup-task",
+	"version": "1.0.0",
+	"description": "application server made with Node.js for manage daily workgroup task",
+	"main": "index.js",
+	"scripts": {
+		"test": "jest",
+		"test:watch": "jest --watch"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/ahmedglez/stixcp-workgroup-tasks.git"
+	},
+	"keywords": [
+		"React",
+		"Node.js",
+		"Express",
+		"MongoDB",
+		"PostgreSQL"
+	],
+	"author": "Ahmed Gonzalez <ahmediglez@gmail.com>",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/ahmedglez/stixcp-workgroup-tasks/issues"
+	},
+	"homepage": "https://github.com/ahmedglez/stixcp-workgroup-tasks#readme",
+	"dependencies": {
+		"dotenv": "^16.0.3",
+		"jest-fetch-mock": "^3.0.3",
+		"pg": "^8.8.0"
+	},
+	"devDependencies": {
+		"enzyme": "^3.11.0",
+		"jest": "^29.3.1",
+		"jsdom": "^20.0.2",
+		"jsdom-global": "^3.0.2"
+	}
+}
