@@ -41,7 +41,7 @@ const getUsers = () => {
 		if (error) {
 			throw error;
 		}
-		console.log(results.rows);
+		return results.rows;
 	});
 };
 
@@ -50,8 +50,71 @@ const getUserById = (id) => {
 		if (error) {
 			throw error;
 		}
-		console.log(results.rows);
+		return results.rows;
 	});
+};
+
+const getUserByNickname = (nickname) => {
+	client.query(
+		"SELECT * FROM users WHERE nickname = $1",
+		[nickname],
+		(error, results) => {
+			if (error) {
+				throw error;
+			}
+			return results.rows;
+		}
+	);
+};
+
+const getUserByEmail = (email) => {
+	client.query(
+		"SELECT * FROM users WHERE email = $1",
+		[email],
+		(error, results) => {
+			if (error) {
+				throw error;
+			}
+			return results.rows;
+		}
+	);
+};
+
+const getLastUser = () => {
+	client.query(
+		"SELECT * FROM users ORDER BY id DESC LIMIT 1",
+		(error, results) => {
+			if (error) {
+				throw error;
+			}
+			return results.rows;
+		}
+	);
+};
+
+const getUserByRole = (role) => {
+	client.query(
+		"SELECT * FROM users WHERE role = $1",
+		[role],
+		(error, results) => {
+			if (error) {
+				throw error;
+			}
+			return results.rows;
+		}
+	);
+};
+
+const getLastTenUsers = () => {
+	client.query(
+		"SELECT * FROM users ORDER BY id DESC LIMIT 10",
+		(error, results) => {
+			if (error) {
+				throw error;
+			}
+			return results.rows;
+		}
+	);
 };
 
 const updateUser = (id, user) => {
@@ -74,7 +137,7 @@ const updateUser = (id, user) => {
 			if (error) {
 				throw error;
 			}
-			console.log(`User modified with ID: ${id}`);
+			return results.rows;
 		}
 	);
 };
@@ -88,10 +151,38 @@ const deleteUser = (id) => {
 	});
 };
 
+const deleteAllUsers = () => {
+	client.query("DELETE FROM users", (error, results) => {
+		if (error) {
+			throw error;
+		}
+		return results.rows;
+	});
+};
+
+const deleteLastUser = () => {
+	client.query(
+		"DELETE FROM users WHERE id = (SELECT id FROM users ORDER BY id DESC LIMIT 1)",
+		(error, results) => {
+			if (error) {
+				return false;
+			}
+			return results;
+		}
+	);
+};
+
 module.exports = {
 	createUser,
 	getUsers,
 	getUserById,
 	updateUser,
 	deleteUser,
+	deleteAllUsers,
+	getUserByNickname,
+	getUserByEmail,
+	getLastUser,
+	getUserByRole,
+	getLastTenUsers,
+	deleteLastUser,
 };

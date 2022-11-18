@@ -58,6 +58,43 @@ const getClientById = (id) => {
 	);
 };
 
+const getLastClient = () => {
+	client.query(
+		"SELECT * FROM clients ORDER BY id DESC LIMIT 1",
+		(error, results) => {
+			if (error) {
+				throw error;
+			}
+			console.log(results.rows);
+		}
+	);
+};
+
+const getLastTenClients = () => {
+	client.query(
+		"SELECT * FROM clients ORDER BY id DESC LIMIT 10",
+		(error, results) => {
+			if (error) {
+				throw error;
+			}
+			console.log(results.rows);
+		}
+	);
+};
+
+const getOldClients = (date) => {
+	client.query(
+		"SELECT * FROM clients WHERE created < $1",
+		[date],
+		(error, results) => {
+			if (error) {
+				throw error;
+			}
+			console.log(results.rows);
+		}
+	);
+};
+
 const updateClient = (id, client) => {
 	const { nickname, fullname, phone, mobile, type, location, email, address } =
 		client;
@@ -82,10 +119,23 @@ const deleteClient = (id) => {
 	});
 };
 
+const deleteAllClients = () => {
+	client.query("DELETE FROM clients", (error, results) => {
+		if (error) {
+			throw error;
+		}
+		console.log("All users deleted successfully");
+	});
+};
+
 module.exports = {
 	createClient,
 	getClients,
 	getClientById,
 	updateClient,
 	deleteClient,
+	deleteAllClients,
+	getLastClient,
+	getLastTenClients,
+	getOldClients,
 };

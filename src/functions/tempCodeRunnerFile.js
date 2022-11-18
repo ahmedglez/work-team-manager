@@ -1,9 +1,0 @@
-	nickname,
-		fullname,
-		phone,
-		mobile,
-		location,
-		email,
-		address,
-		type,
-		created
