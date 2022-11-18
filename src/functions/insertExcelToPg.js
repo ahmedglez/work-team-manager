@@ -5,7 +5,7 @@ const { createUser } = require("../database/crud/usersCrud");
 const clients = readFromCSV("../xlsx/Clientes.xlsx");
 const workers = readFromCSV("../xlsx/Trabajadores.xlsx");
 
-workers.map((worker) => {
+/* workers.map((worker) => {
 	console.log(worker);
 	const ci = worker.CI || "";
 	const nickname = "admin" + ci;
@@ -28,7 +28,7 @@ workers.map((worker) => {
 		ci,
 		address
 	);
-});
+}); */
 
 /* clients.map((client) => {
 	const nickname = client["Nombre del Cliente"] || "";

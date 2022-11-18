@@ -36,85 +36,92 @@ const createUser = (
 		});
 };
 
-const getUsers = () => {
-	client.query("SELECT * FROM users ORDER BY id ASC", (error, results) => {
-		if (error) {
-			throw error;
-		}
-		return results.rows;
-	});
+const getAllUsers = () => {
+	const text = "SELECT * FROM public.users ORDER BY id ASC";
+	client
+		.query(text)
+		.then((res) => {
+			return res.rows;
+		})
+		.catch((err) => {
+			console.log(err);
+		});
 };
 
 const getUserById = (id) => {
-	client.query("SELECT * FROM users WHERE id = $1", [id], (error, results) => {
-		if (error) {
-			throw error;
-		}
-		return results.rows;
-	});
+	const text = "SELECT * FROM users WHERE id = $1";
+	const values = [id];
+	client
+		.query(text, values)
+		.then((res) => {
+			return res.rows;
+		})
+		.catch((err) => {
+			console.log(err);
+		});
 };
 
 const getUserByNickname = (nickname) => {
-	client.query(
-		"SELECT * FROM users WHERE nickname = $1",
-		[nickname],
-		(error, results) => {
-			if (error) {
-				throw error;
-			}
-			return results.rows;
-		}
-	);
+	const text = "SELECT * FROM users WHERE nickname = $1";
+	const values = [nickname];
+	client
+		.query(text, values)
+		.then((res) => {
+			return res.rows;
+		})
+		.catch((err) => {
+			console.log(err);
+		});
 };
 
 const getUserByEmail = (email) => {
-	client.query(
-		"SELECT * FROM users WHERE email = $1",
-		[email],
-		(error, results) => {
-			if (error) {
-				throw error;
-			}
-			return results.rows;
-		}
-	);
+	const text = "SELECT * FROM users WHERE email = $1";
+	const values = [email];
+	client
+		.query(text, values)
+		.then((res) => {
+			return res.rows;
+		})
+		.catch((err) => {
+			console.log(err);
+		});
 };
 
 const getLastUser = () => {
-	client.query(
-		"SELECT * FROM users ORDER BY id DESC LIMIT 1",
-		(error, results) => {
-			if (error) {
-				throw error;
-			}
-			return results.rows;
-		}
-	);
+	const text = "SELECT * FROM users ORDER BY id DESC LIMIT 1";
+	client
+		.query(text)
+		.then((res) => {
+			return res.rows;
+		})
+		.catch((err) => {
+			console.log(err);
+		});
 };
 
 const getUserByRole = (role) => {
-	client.query(
-		"SELECT * FROM users WHERE role = $1",
-		[role],
-		(error, results) => {
-			if (error) {
-				throw error;
-			}
-			return results.rows;
-		}
-	);
+	const text = "SELECT * FROM users WHERE role = $1";
+	const values = [role];
+	client
+		.query(text, values)
+		.then((res) => {
+			return res.rows;
+		})
+		.catch((err) => {
+			console.log(err);
+		});
 };
 
 const getLastTenUsers = () => {
-	client.query(
-		"SELECT * FROM users ORDER BY id DESC LIMIT 10",
-		(error, results) => {
-			if (error) {
-				throw error;
-			}
-			return results.rows;
-		}
-	);
+	const text = "SELECT * FROM users ORDER BY id DESC LIMIT 10";
+	client
+		.query(text)
+		.then((res) => {
+			return res.rows;
+		})
+		.catch((err) => {
+			console.log(err);
+		});
 };
 
 const updateUser = (id, user) => {
@@ -130,55 +137,62 @@ const updateUser = (id, user) => {
 		address,
 	} = user;
 
-	client.query(
-		"UPDATE users SET nickname = $1, fullname = $2, phone = $3, mobile = $4, email = $5, password = $6, role = $7, ci = $8, address = $9 WHERE id = $10",
-		[nickname, fullname, phone, mobile, email, password, role, ci, address, id],
-		(error, results) => {
-			if (error) {
-				throw error;
-			}
-			return results.rows;
-		}
-	);
+	const text =
+		"UPDATE users SET nickname = $1, fullname = $2, phone = $3, mobile = $4, email = $5, password = $6, role = $7, ci = $8, address = $9 WHERE id = $10";
+	const values = [
+		nickname,
+		fullname,
+		phone,
+		mobile,
+		email,
+		password,
+		role,
+		ci,
+		address,
+		id,
+	];
+	client
+		.query(text, values)
+		.then((res) => {
+			return res.rows;
+		})
+		.catch((err) => {
+			console.log(err);
+		});
 };
 
 const deleteUser = (id) => {
-	client.query("DELETE FROM users WHERE id = $1", [id], (error, results) => {
-		if (error) {
-			throw error;
-		}
-		console.log(`User deleted with ID: ${id}`);
-	});
-};
-
-const deleteAllUsers = () => {
-	client.query("DELETE FROM users", (error, results) => {
-		if (error) {
-			throw error;
-		}
-		return results.rows;
-	});
+	const text = "DELETE FROM users WHERE id = $1";
+	const values = [id];
+	client
+		.query(text, values)
+		.then((res) => {
+			return res.rows;
+		})
+		.catch((err) => {
+			console.log(err);
+		});
 };
 
 const deleteLastUser = () => {
-	client.query(
-		"DELETE FROM users WHERE id = (SELECT id FROM users ORDER BY id DESC LIMIT 1)",
-		(error, results) => {
-			if (error) {
-				return false;
-			}
-			return results;
-		}
-	);
+	const text =
+		"DELETE FROM users WHERE id = (SELECT id FROM users ORDER BY id DESC LIMIT 1)";
+	client
+		.query()
+		.then((res) => {
+			return res.rows;
+		})
+		.catch((err) => {
+			console.log(err);
+		});
 };
 
 module.exports = {
 	createUser,
-	getUsers,
+	getAllUsers,
 	getUserById,
 	updateUser,
 	deleteUser,
-	deleteAllUsers,
 	getUserByNickname,
 	getUserByEmail,
 	getLastUser,
