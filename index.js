@@ -5,6 +5,7 @@ dotenv.config({
 })
 const express = require("express")
 const cors = require("cors")
+const routerApi = require("./controllers/routes")
 
 /* SERVER CONFIGURATION */
 const app = express()
@@ -26,6 +27,10 @@ app.use(cors(options))
 app.get("/", (req, res) => {
 	res.send("Hello World!")
 })
+
+routerApi(app)
+
+/* MIDDLEWARES */
 
 /* SERVER START */
 app.listen(port, () => {

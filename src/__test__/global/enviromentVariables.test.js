@@ -6,12 +6,12 @@ dotenv.config({
 describe("Bateria de pruebas para las variables de entorno", () => {
 	test("Probando variables de entorno", () => {
 		expect(process.env.PGUSER).toBe("postgres")
-		expect(process.env.PGPORT).toBe("5736")
-		expect(process.env.PGHOST).toBe("containers-us-west-121.railway.app")
-		expect(process.env.PGDATABASE).toBe("railway")
-		expect(process.env.PGPASSWORD).toBe("YuXE9K7WWSIgYzIDRVNl")
+		expect(process.env.PGPORT).toBe("5433")
+		expect(process.env.PGHOST).toBe("localhost")
+		expect(process.env.PGDATABASE).toBe("workgroup")
+		expect(process.env.PGPASSWORD).toBe("1234")
 		expect(process.env.DATABASE_URL).toBe(
-			"postgres:YuXE9K7WWSIgYzIDRVNl@containers-us-west-121.railway.app:5736/railway"
+			"postgres://postgres:1234@localhost:5433/workgroup"
 		)
 	})
 })
