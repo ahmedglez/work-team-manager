@@ -1,31 +1,28 @@
 const readFromCSV = require("../utils/readFromCSV");
-const { createUser } = require("../database/crud/usersCrud");
+const { createClient } = require("../database/crud/clientsCrud");
 
 const clients = readFromCSV("../xlsx/Clientes.xlsx");
-const workers = readFromCSV("../xlsx/Trabajadores.xlsx");
 
-workers.map((worker) => {
-	const ci = worker.CI || "";
-	const fullname = worker["Nombre completo"] || "";
-	const nickname = "nickname";
-	const phone = worker["Teléfono particular"] || "";
-	const mobile = worker["Número de teléfono móvil"] || "";
-	const email = worker["Dirección de correo electrónico"] || "";
-	const address = worker["Dirección"] || "";
-	const password = "admin1234";
-	const role = 1;
+clients.map((client) => {
+	const nickname = client["Nombre del Cliente"] || "";
+	const fullname = client["Nombre del Cliente"] || "";
+	const phone = client["Teléfono"] || "";
+	const mobile = client.Celular || "";
+	const location = client.Municipio || "";
+	const email = "";
+	const address = "";
+	const type = client["Tipo de Cliente"];
+	const created = new Date(client.Year, client.Mes, client.Dia);
 
-	createUser(
+	createClient(
 		nickname,
 		fullname,
 		phone,
 		mobile,
+		location,
 		email,
-		password,
-		role,
-		ci,
-		address
+		address,
+		type,
+		created
 	);
 });
-
-
