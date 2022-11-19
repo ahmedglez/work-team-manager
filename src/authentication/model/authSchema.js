@@ -21,6 +21,10 @@ const authSchema = new Schema({
 		type: String,
 		required: true,
 	},
+	date: {
+		type: Date,
+		default: Date.now,
+	},
 });
 
 const AuthModel = mongoose.model("Auth", authSchema);

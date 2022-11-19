@@ -1,15 +1,20 @@
-exports.success = function (req, res, message, status) {
+const success = (req, res, message, status) => {
 	res.status(status || 200).send({
-		error: '',
+		error: "",
 		body: message,
 	});
 };
 
-exports.error = function (req, res, message, status, details) {
-	console.error('[response error] ' + details + ': ' + message + '\n');
+const error = (req, res, message, status, details) => {
+	console.error("[response error] " + details + ": " + message + "\n");
 
 	res.status(status || 500).send({
 		error: message,
-		body: '',
+		body: "",
 	});
+};
+
+module.exports = {
+	success,
+	error,
 };

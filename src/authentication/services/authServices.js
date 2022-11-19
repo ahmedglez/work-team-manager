@@ -15,21 +15,19 @@ const authByEmail = async (req, res) => {
 	const { id } = user;
 	if (!user) {
 		throw boom.unauthorized("Invalid email or password");
+		res.status(401).send("Invalid email or password");
 	}
 	const isValidPassword = password === user.password;
 	if (!isValidPassword) {
 		throw boom.unauthorized("Invalid email or password");
+		res.status(401).send("Invalid email or password");
 	}
 	const token = sign({ id: id }, process.env.SECRET_KEY, {
 		expiresIn: "1h",
 	});
-	const auth = await addAuth(id, email, password, token).then((res) => {
-		return res;
-	});
-	res.status(200).json({
-		token,
-		auth,
-	});
+	const auth = await addAuth(id, email, password, token);
+
+	return auth;
 };
 
 module.exports = {
