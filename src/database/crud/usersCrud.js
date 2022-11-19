@@ -1,4 +1,4 @@
-const client = require("../connection");
+const client = require("../connections/PgConnection");
 
 const createUser = (
 	nickname,
@@ -77,14 +77,7 @@ const getUserByNickname = (nickname) => {
 const getUserByEmail = (email) => {
 	const text = "SELECT * FROM users WHERE email = $1";
 	const values = [email];
-	client
-		.query(text, values)
-		.then((res) => {
-			return res.rows;
-		})
-		.catch((err) => {
-			console.log(err);
-		});
+	return client.query(text, values);
 };
 
 const getLastUser = () => {
@@ -161,6 +154,20 @@ const updateUser = (id, user) => {
 		});
 };
 
+const updatePassword = (id, password) => {
+	const text = "UPDATE users SET password = $1 WHERE id = $2";
+	const values = [password, id];
+	client
+		.query(text, values)
+
+		.then((res) => {
+			return res.rows;
+		})
+		.catch((err) => {
+			console.log(err);
+		});
+};
+
 const deleteUser = (id) => {
 	const text = "DELETE FROM users WHERE id = $1";
 	const values = [id];
@@ -192,6 +199,7 @@ module.exports = {
 	getAllUsers,
 	getUserById,
 	updateUser,
+	updatePassword,
 	deleteUser,
 	getUserByNickname,
 	getUserByEmail,
