@@ -64,14 +64,7 @@ const getUserById = (id) => {
 const getUserByNickname = (nickname) => {
 	const text = "SELECT * FROM users WHERE nickname = $1";
 	const values = [nickname];
-	client
-		.query(text, values)
-		.then((res) => {
-			return res.rows;
-		})
-		.catch((err) => {
-			console.log(err);
-		});
+	return client.query(text, values);
 };
 
 const getUserByEmail = (email) => {

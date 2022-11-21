@@ -7,7 +7,7 @@ const addAuth = async (userId, email, password, token) => {
 		password,
 		token,
 	});
-	return auth.save();
+	auth.save();
 };
 
 module.exports = {

@@ -1,17 +1,42 @@
-const { getUserByEmail } = require("../../database/crud/usersCrud");
+const {
+	getUserByEmail,
+	getUserByNickname,
+} = require("../../database/crud/usersCrud");
 const boom = require("@hapi/boom");
 const { sign } = require("jsonwebtoken");
 const dotenv = require("dotenv");
 const { addAuth } = require("../lambdas/authFunctions");
+
 dotenv.config({
 	path: ".env",
 });
 
-const authByEmail = async (req, res) => {
-	const { email, password } = req.body;
-	const response = await getUserByEmail(email);
+const authByEmailOrUsername = async (req, res) => {
+	const { email, username, password } = req.body;
+	if (!email && !username) {
+		throw boom.badRequest("Email or username is required");
+		res.status(401).send("Invalid email or password");
+		return;
+	}
+	if (!password) {
+		throw boom.badRequest("Password is required");
+		res.status(401).send("Invalid email or password");
+		return;
+	}
+
+	const response = email
+		? await getUserByEmail(email)
+		: await getUserByNickname(username);
+	if (response === undefined) {
+		throw boom.badRequest("Invalid email or password");
+		res.status(401).send("Invalid email or password");
+	}
 	const user = response.rows[0];
-	console.log(user);
+	if (user === undefined) {
+		throw boom.badRequest("Invalid email or password");
+		res.status(401).send("Invalid email or password");
+	}
+
 	const { id } = user;
 	if (!user) {
 		throw boom.unauthorized("Invalid email or password");
@@ -26,10 +51,9 @@ const authByEmail = async (req, res) => {
 		expiresIn: "1h",
 	});
 	const auth = await addAuth(id, email, password, token);
-
 	return auth;
 };
 
 module.exports = {
-	authByEmail,
+	authByEmailOrUsername,
 };
