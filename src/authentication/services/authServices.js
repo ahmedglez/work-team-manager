@@ -4,7 +4,7 @@ const { sign } = require("jsonwebtoken");
 const dotenv = require("dotenv");
 const {
 	addAuth,
-	deleteAuth,
+	deleteAuthByToken,
 	isAlreadyLoggedIn,
 } = require("../lambdas/authFunctions");
 
@@ -37,7 +37,6 @@ const authByEmail = async (req, res) => {
 	}
 
 	const { id } = user;
-
 	const isValidPassword = password === user.password;
 	if (!isValidPassword) {
 		throw boom.unauthorized("Invalid email or password");
@@ -55,19 +54,19 @@ const authByEmail = async (req, res) => {
 	});
 	const auth = await addAuth(id, email, password, token)
 		.then(() => {
-			res.status(200).json({
-				token,
-			});
+			return token;
 		})
 		.catch((err) => {
-			res.status(500).json({
-				message: err.message,
-			});
+			return err;
 		});
+	setTimeout(() => {
+		//delete the token after 1 hour
+		deleteAuthByToken(token);
+	}, 3600000);
 };
 
 const deleteToken = async (token) => {
-	const response = await deleteAuth(token);
+	const response = await deleteAuthByToken(token);
 	return response;
 };
 

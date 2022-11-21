@@ -44,11 +44,6 @@ const updateAuth = async (id, data) => {
 	return response;
 };
 
-const deleteAuthByToken = async (token) => {
-	const response = await model.findOne.deleteOne({ token: token });
-	return response;
-};
-
 const isAlreadyLoggedIn = async (email) => {
 	const response = await model.findOne({ email: email });
 	if (response === null) {
@@ -74,6 +69,12 @@ const loggedOut = async (id) => {
 
 const deleteAuth = async (id) => {
 	const response = await model.findByIdAndDelete(id);
+	return response;
+};
+const deleteAuthByToken = async (token) => {
+	const response = await model.findOneAndDelete({
+		token: token,
+	});
 	return response;
 };
 
