@@ -1,12 +1,12 @@
 const express = require("express");
 const multer = require("multer");
 const router = express.Router();
-const { authByEmailOrUsername } = require("../services/authServices");
+const { authByEmail, deleteToken } = require("../services/authServices");
 const { error, success } = require("../../routes/response");
 
-/* login with email or username and password */
+/* login with email o and password */
 router.post("/", (req, res) => {
-	authByEmailOrUsername(req, res)
+	authByEmail(req, res)
 		.then((data) => {
 			success(req, res, "Autorization granted", 200);
 		})

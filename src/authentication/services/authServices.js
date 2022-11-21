@@ -1,32 +1,31 @@
-const {
-	getUserByEmail,
-	getUserByNickname,
-} = require("../../database/crud/usersCrud");
+const { getUserByEmail } = require("../../database/crud/usersCrud");
 const boom = require("@hapi/boom");
 const { sign } = require("jsonwebtoken");
 const dotenv = require("dotenv");
-const { addAuth } = require("../lambdas/authFunctions");
+const {
+	addAuth,
+	deleteAuth,
+	isAlreadyLoggedIn,
+} = require("../lambdas/authFunctions");
 
 dotenv.config({
 	path: ".env",
 });
 
-const authByEmailOrUsername = async (req, res) => {
-	const { email, username, password } = req.body;
-	if (!email && !username) {
-		throw boom.badRequest("Email or username is required");
+const authByEmail = async (req, res) => {
+	const { email, password } = req.body;
+	if (!email) {
+		throw boom.badRequest("Email is required");
 		res.status(401).send("Invalid email or password");
-		return;
 	}
+
 	if (!password) {
 		throw boom.badRequest("Password is required");
 		res.status(401).send("Invalid email or password");
-		return;
 	}
 
-	const response = email
-		? await getUserByEmail(email)
-		: await getUserByNickname(username);
+	const response = await getUserByEmail(email);
+
 	if (response === undefined) {
 		throw boom.badRequest("Invalid email or password");
 		res.status(401).send("Invalid email or password");
@@ -38,22 +37,41 @@ const authByEmailOrUsername = async (req, res) => {
 	}
 
 	const { id } = user;
-	if (!user) {
-		throw boom.unauthorized("Invalid email or password");
-		res.status(401).send("Invalid email or password");
-	}
+
 	const isValidPassword = password === user.password;
 	if (!isValidPassword) {
 		throw boom.unauthorized("Invalid email or password");
 		res.status(401).send("Invalid email or password");
 	}
+
+	const isAlreadyLogged = await isAlreadyLoggedIn(email);
+	console.log("Is already logged", isAlreadyLogged);
+	if (isAlreadyLogged) {
+		throw boom.badRequest("User already logged in");
+		res.status(401).send("User already logged in");
+	}
 	const token = sign({ id: id }, process.env.SECRET_KEY, {
 		expiresIn: "1h",
 	});
-	const auth = await addAuth(id, email, password, token);
-	return auth;
+	const auth = await addAuth(id, email, password, token)
+		.then(() => {
+			res.status(200).json({
+				token,
+			});
+		})
+		.catch((err) => {
+			res.status(500).json({
+				message: err.message,
+			});
+		});
+};
+
+const deleteToken = async (token) => {
+	const response = await deleteAuth(token);
+	return response;
 };
 
 module.exports = {
-	authByEmailOrUsername,
+	authByEmail,
+	deleteToken,
 };

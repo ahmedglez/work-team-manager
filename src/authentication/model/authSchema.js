@@ -10,8 +10,6 @@ const authSchema = new Schema({
 	},
 	email: {
 		type: String,
-		required: true,
-		unique: true,
 	},
 	password: {
 		type: String,
@@ -20,6 +18,10 @@ const authSchema = new Schema({
 	token: {
 		type: String,
 		required: true,
+	},
+	loggedIn: {
+		type: Boolean,
+		default: false,
 	},
 	date: {
 		type: Date,

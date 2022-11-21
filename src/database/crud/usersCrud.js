@@ -26,39 +26,18 @@ const createUser = (
 		ci,
 		address,
 	];
-	client
-		.query(text, values)
-		.then((res) => {
-			console.log(res);
-		})
-		.catch((err) => {
-			console.log(err);
-		});
+	return client.query(text, values);
 };
 
 const getAllUsers = () => {
 	const text = "SELECT * FROM public.users ORDER BY id ASC";
-	client
-		.query(text)
-		.then((res) => {
-			return res.rows;
-		})
-		.catch((err) => {
-			console.log(err);
-		});
+	return client.query(text);
 };
 
 const getUserById = (id) => {
 	const text = "SELECT * FROM users WHERE id = $1";
 	const values = [id];
-	client
-		.query(text, values)
-		.then((res) => {
-			return res.rows;
-		})
-		.catch((err) => {
-			console.log(err);
-		});
+	return client.query(text, values);
 };
 
 const getUserByNickname = (nickname) => {
@@ -75,39 +54,18 @@ const getUserByEmail = (email) => {
 
 const getLastUser = () => {
 	const text = "SELECT * FROM users ORDER BY id DESC LIMIT 1";
-	client
-		.query(text)
-		.then((res) => {
-			return res.rows;
-		})
-		.catch((err) => {
-			console.log(err);
-		});
+	client.query(text);
 };
 
 const getUserByRole = (role) => {
 	const text = "SELECT * FROM users WHERE role = $1";
 	const values = [role];
-	client
-		.query(text, values)
-		.then((res) => {
-			return res.rows;
-		})
-		.catch((err) => {
-			console.log(err);
-		});
+	return client.query(text, values);
 };
 
 const getLastTenUsers = () => {
 	const text = "SELECT * FROM users ORDER BY id DESC LIMIT 10";
-	client
-		.query(text)
-		.then((res) => {
-			return res.rows;
-		})
-		.catch((err) => {
-			console.log(err);
-		});
+	client.query(text);
 };
 
 const updateUser = (id, user) => {
@@ -137,54 +95,25 @@ const updateUser = (id, user) => {
 		address,
 		id,
 	];
-	client
-		.query(text, values)
-		.then((res) => {
-			return res.rows;
-		})
-		.catch((err) => {
-			console.log(err);
-		});
+	return client.query(text, values);
 };
 
 const updatePassword = (id, password) => {
 	const text = "UPDATE users SET password = $1 WHERE id = $2";
 	const values = [password, id];
-	client
-		.query(text, values)
-
-		.then((res) => {
-			return res.rows;
-		})
-		.catch((err) => {
-			console.log(err);
-		});
+	return client.query(text, values);
 };
 
 const deleteUser = (id) => {
 	const text = "DELETE FROM users WHERE id = $1";
 	const values = [id];
-	client
-		.query(text, values)
-		.then((res) => {
-			return res.rows;
-		})
-		.catch((err) => {
-			console.log(err);
-		});
+	return client.query(text, values);
 };
 
 const deleteLastUser = () => {
 	const text =
 		"DELETE FROM users WHERE id = (SELECT id FROM users ORDER BY id DESC LIMIT 1)";
-	client
-		.query()
-		.then((res) => {
-			return res.rows;
-		})
-		.catch((err) => {
-			console.log(err);
-		});
+	client.query();
 };
 
 module.exports = {
