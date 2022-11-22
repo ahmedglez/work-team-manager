@@ -1,7 +1,7 @@
-const success = (req, res, message, status) => {
+const success = (req, res, message, data, status) => {
 	res.status(status || 200).send({
-		error: "",
-		body: message,
+		message: message,
+		data: data,
 	});
 };
 

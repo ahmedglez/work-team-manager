@@ -42,7 +42,6 @@ const isValidUser = async (req, res) => {
 const isAlreadyLogged = async (req, res) => {
 	const { email } = req.body;
 	const isAlreadyLogged = await isAlreadyLoggedIn(email);
-	console.log("Is already logged", isAlreadyLogged);
 	if (isAlreadyLogged) {
 		throw boom.badRequest("User already logged in");
 		res.status(401).send("User already logged in");

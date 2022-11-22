@@ -32,11 +32,12 @@ const authByEmail = async (req, res) => {
 	});
 	const auth = await addAuth(id, email, password, token)
 		.then(() => {
-			return token;
+			return { token };
 		})
 		.catch((err) => {
 			return err;
 		});
+	return token;
 	setTimeout(() => {
 		//delete the token after 1 hour
 		deleteAuthByToken(token);
