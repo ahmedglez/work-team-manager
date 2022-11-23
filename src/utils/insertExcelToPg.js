@@ -1,4 +1,4 @@
-const readFromCSV = require("../utils/readFromCSV");
+const readFromCSV = require("./readFromCSV");
 const { createClient } = require("../database/crud/clientsCrud");
 const { createUser } = require("../database/crud/usersCrud");
 

@@ -1,11 +1,7 @@
 const express = require("express");
 const multer = require("multer");
 const router = express.Router();
-const {
-	login,
-	logout,
-	sendRecoveryCode,
-} = require("../services/authServices");
+const { login, logout, sendRecoveryCode } = require("../services/authServices");
 const { error, success } = require("../../routes/response");
 
 /* login with email o and password */
@@ -41,7 +37,25 @@ router.post("/recovery/", (req, res) => {
 	if (!email) {
 		return res.status(400).json({ error: "No email sent!" });
 	}
-	sendRecoveryCode(req, res);
+	sendRecoveryCode(req, res)
+		.then((data) => {
+			console.log(
+				"🚀 ~ file: authController.js ~ line 49 ~ .then ~ data",
+				data
+			);
+
+			success(req, res, "Recovery code sent", data, 200);
+		})
+		.catch((err) => {
+			error(req, res, err.message, null, err);
+		});
+});
+
+router.post("/recovery/newPassword", (req, res) => {
+	const { email, password, recoveryCode } = req.body;
+	if (!email && !password && !recoveryCode) {
+		return res.status(400).json({ error: "No credentials sent!" });
+	}
 });
 
 module.exports = router;

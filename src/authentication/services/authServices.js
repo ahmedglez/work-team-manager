@@ -21,7 +21,7 @@ const {
 dotenv.config({
 	path: ".env",
 });
-const nodemailer = require("nodemailer");
+const { sendRecoveryCodeTo } = require("../../utils/sendEmails");
 
 const login = async (req, res) => {
 	const { email, password } = req.body;
@@ -70,8 +70,6 @@ const logout = async (req, res) => {
 const sendRecoveryCode = async (req, res) => {
 	try {
 		isValidEmail(req, res);
-		isValidPassword(req, res);
-		await isValidUser(req, res);
 		await isNotAlreadyLogged(req, res);
 		await isValidToken(req, res);
 		await validateToken(req, res);
@@ -81,10 +79,14 @@ const sendRecoveryCode = async (req, res) => {
 	}
 	const { email } = req.body;
 	const token = req.headers.authorization.split(" ")[1];
-	const recoveryCode = Math.floor(Math.random() * 1000000);
+	const recoveryCode = Math.round(Math.random() * 999999);
+	await setRecoveredCode(token, recoveryCode);
+	await sendRecoveryCodeTo(email, recoveryCode)
+	return recoveryCode;
 };
 
 module.exports = {
 	login,
 	logout,
+	sendRecoveryCode,
 };
