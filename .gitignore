@@ -6,6 +6,9 @@ node_modules/
 
 ## .env ##
 .env
+.env.local
+.ev
 
 ## .vscode ##
 .vscode/
+
