@@ -21,6 +21,10 @@ const authSchema = new Schema({
 		type: Boolean,
 		default: false,
 	},
+	recoveryCode: {
+		type: String,
+		default: null,
+	},
 	date: {
 		type: Date,
 		default: Date.now,

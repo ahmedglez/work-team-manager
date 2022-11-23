@@ -1,6 +1,7 @@
 const { getUserByEmail } = require("../database/crud/usersCrud");
 const {
 	isAlreadyLoggedIn,
+	getAuthByToken,
 } = require("../authentication/lambdas/authFunctions");
 const boom = require("@hapi/boom");
 
@@ -17,6 +18,22 @@ const isValidPassword = (req, res) => {
 	if (!password) {
 		throw boom.badRequest("Password is required");
 		res.status(401).send("Invalid email or password");
+	}
+};
+
+const isValidRecoveryCode = async (req, res) => {
+	const { recoveryCode } = req.body;
+	if (!recoveryCode) {
+		throw boom.badRequest("Recovery code is required");
+		res.status(401).send("Invalid recovery code");
+	}
+};
+
+const isValidToken = async (req, res) => {
+	const token = req.headers.authorization.split(" ")[1];
+	if (!token) {
+		throw boom.badRequest("Token is required");
+		res.status(401).send("Invalid token");
 	}
 };
 
@@ -48,9 +65,30 @@ const isAlreadyLogged = async (req, res) => {
 	}
 };
 
+const isNotAlreadyLogged = async (req, res) => {
+	const { email } = req.body;
+	const isAlreadyLogged = await isAlreadyLoggedIn(email);
+	if (!isAlreadyLogged) {
+		throw boom.badRequest("User not logged in");
+		res.status(401).send("User not logged in");
+	}
+};
+
+const validateToken = async (req, res) => {
+	const token = req.headers.authorization.split(" ")[1];
+	const auth = await getAuthByToken(token);
+	if (auth === null) {
+		throw boom.unauthorized("Invalid token");
+	}
+};
+
 module.exports = {
 	isValidEmail,
 	isValidPassword,
 	isValidUser,
 	isAlreadyLogged,
+	isValidRecoveryCode,
+	isValidToken,
+	isNotAlreadyLogged,
+	validateToken,
 };
