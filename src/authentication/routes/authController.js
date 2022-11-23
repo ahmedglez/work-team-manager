@@ -1,7 +1,12 @@
 const express = require("express");
 const multer = require("multer");
 const router = express.Router();
-const { login, logout, sendRecoveryCode } = require("../services/authServices");
+const {
+	login,
+	logout,
+	sendRecoveryCode,
+	changePassword,
+} = require("../services/authServices");
 const { error, success } = require("../../routes/response");
 
 /* login with email o and password */
@@ -56,6 +61,13 @@ router.post("/recovery/newPassword", (req, res) => {
 	if (!email && !password && !recoveryCode) {
 		return res.status(400).json({ error: "No credentials sent!" });
 	}
+	changePassword(req, res)
+		.then((data) => {
+			success(req, res, "Password changed", data, 200);
+		})
+		.catch((err) => {
+			error(req, res, err.message, null, err);
+		});
 });
 
 module.exports = router;

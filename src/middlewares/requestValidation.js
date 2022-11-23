@@ -2,6 +2,7 @@ const { getUserByEmail } = require("../database/crud/usersCrud");
 const {
 	isAlreadyLoggedIn,
 	getAuthByToken,
+	changePassword,
 } = require("../authentication/lambdas/authFunctions");
 const boom = require("@hapi/boom");
 
@@ -22,8 +23,8 @@ const isValidPassword = (req, res) => {
 };
 
 const isValidRecoveryCode = async (req, res) => {
-	const { recoveryCode } = req.body;
-	if (!recoveryCode) {
+	const { code } = req.body;
+	if (!code) {
 		throw boom.badRequest("Recovery code is required");
 		res.status(401).send("Invalid recovery code");
 	}

@@ -69,6 +69,21 @@ const setRecoveredCode = async (token, code) => {
 	return response;
 };
 
+const updatePassword = async (token, newPassword) => {
+	const response = await model.findOneAndUpdate(
+		{
+			token: token,
+		},
+		{
+			password: newPassword,
+		},
+		{
+			new: true,
+		}
+	);
+	return response;
+};
+
 /* Verificar si ya esta logeado */
 const isAlreadyLoggedIn = async (email) => {
 	const response = await model.findOne({ email: email });
@@ -118,4 +133,5 @@ module.exports = {
 	loggedOut,
 	setRecoveredCode,
 	getRecoveryCode,
+	updatePassword,
 };

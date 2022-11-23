@@ -7,6 +7,7 @@ const {
 	getRecoveryCode,
 	setRecoveredCode,
 	getAuthByToken,
+	updatePassword,
 } = require("../lambdas/authFunctions");
 const {
 	isValidEmail,
@@ -81,12 +82,40 @@ const sendRecoveryCode = async (req, res) => {
 	const token = req.headers.authorization.split(" ")[1];
 	const recoveryCode = Math.round(Math.random() * 999999);
 	await setRecoveredCode(token, recoveryCode);
-	await sendRecoveryCodeTo(email, recoveryCode)
+	await sendRecoveryCodeTo(email, recoveryCode);
 	return recoveryCode;
+};
+
+const changePassword = async (req, res) => {
+	try {
+		isValidEmail(req, res);
+		isValidPassword(req, res);
+		isValidToken(req, res);
+		isValidRecoveryCode(req, res);
+	} catch (error) {
+		console.log("Error", error);
+		throw error;
+	}
+	const { email, password, code } = req.body;
+
+	const token = req.headers.authorization.split(" ")[1];
+
+	const auth = await getAuthByToken(token);
+	const { recoveryCode } = auth;
+	if (recoveryCode === code) {
+		console.log("Code is valid");
+		await setRecoveredCode(token, null);
+		await updatePassword(token, password);
+	}
+	else {
+		throw new Error("Invalid code");
+		console.log("Code is invalid");
+	}
 };
 
 module.exports = {
 	login,
 	logout,
 	sendRecoveryCode,
+	changePassword,
 };
