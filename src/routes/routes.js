@@ -1,8 +1,10 @@
 const express = require("express");
-const authentication = require("../authentication/routes/authController");
+const authenticationRoutes = require("../authentication/routes/authController");
+const administratorRoutes = require("../services/admin/routes");
 
 const routes = function (server) {
-	server.use(authentication);
+	server.use(authenticationRoutes);
+	server.use(administratorRoutes(server));
 };
 
 module.exports = routes;

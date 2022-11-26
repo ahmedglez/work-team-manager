@@ -109,9 +109,9 @@ const updateUser = (id, user) => {
 	return client.query(text, values);
 };
 
-const updatePassword = (id, password) => {
-	const text = "UPDATE users SET password = $1 WHERE id = $2";
-	const values = [password, id];
+const updatePasswordPg = (email, password) => {
+	const text = "UPDATE users SET password = $1 WHERE email = $2";
+	const values = [password, email];
 	return client.query(text, values);
 };
 
@@ -159,7 +159,7 @@ module.exports = {
 	getAllUsers,
 	getUserById,
 	updateUser,
-	updatePassword,
+	updatePasswordPg,
 	deleteUser,
 	getUserByNickname,
 	getUserByEmail,

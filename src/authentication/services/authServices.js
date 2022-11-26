@@ -1,4 +1,7 @@
-const { getUserByEmail } = require("../../database/crud/usersCrud");
+const {
+	getUserByEmail,
+	updatePasswordPg,
+} = require("../../database/crud/usersCrud");
 const { sign } = require("jsonwebtoken");
 const dotenv = require("dotenv");
 const {
@@ -21,6 +24,7 @@ const {
 dotenv.config({
 	path: ".env",
 });
+const { generateLog } = require("../../middlewares/generateLog");
 
 const { sendRecoveryCodeTo } = require("../../utils/sendEmails");
 
@@ -33,6 +37,7 @@ const login = async (req, res) => {
 		await isAlreadyLogged(req, res);
 	} catch (error) {
 		console.log("Error", error);
+		generateLog("undentify", "login", error.message);
 		throw error;
 	}
 
@@ -49,11 +54,12 @@ const login = async (req, res) => {
 		.catch((err) => {
 			return err;
 		});
-	return token;
-	setTimeout(() => {
+	setTimeout((email) => {
 		//delete the token after 1 hour
 		deleteAuthByToken(token);
-	}, 3600000);
+		generateLog(email, "login", "token expired");
+	}, 10000);
+	return token;
 };
 
 const logout = async (req, res) => {
@@ -62,6 +68,7 @@ const logout = async (req, res) => {
 		await validateToken(req, res);
 	} catch (error) {
 		console.log("Error", error);
+		generateLog("undentify", "logout", error.message);
 		throw error;
 	}
 	const token = req.headers.authorization.split(" ")[1];
@@ -94,27 +101,86 @@ const changePassword = async (req, res) => {
 		isValidRecoveryCode(req, res);
 	} catch (error) {
 		console.log("Error", error);
+		generateLog("undentify", "change password", error.message);
 		throw error;
 	}
 	const { email, password, code } = req.body;
 
 	const token = req.headers.authorization.split(" ")[1];
-
 	const auth = await getAuthByToken(token);
 	const { recoveryCode } = auth;
 	if (recoveryCode === code) {
 		console.log("Code is valid");
 		await setRecoveredCode(token, null);
 		await updatePassword(token, password);
+		await updatePasswordPg(email, password);
 	} else {
 		throw new Error("Invalid code");
 		console.log("Code is invalid");
 	}
 };
 
+const loginAdmin = async (req, res) => {
+	const { email, password } = req.body;
+	try {
+		isValidEmail(req, res);
+		isValidPassword(req, res);
+		await isValidUser(req, res);
+		await isAlreadyLogged(req, res);
+	} catch (error) {
+		console.log("Error", error);
+		throw error;
+	}
+	const user = await getUserByEmail(email);
+	if (user.role === "admin") {
+		const { id } = user;
+
+		const token = sign({ id: id }, process.env.SECRET_KEY, {
+			expiresIn: "1h",
+		});
+		addAuth(id, email, password, token)
+			.then(() => {
+				return { token };
+			})
+			.catch((err) => {
+				return err;
+			});
+		setTimeout(() => {
+			//delete the token after 1 hour
+			deleteAuthByToken(token);
+		}, 3600000);
+		return token;
+	} else {
+		throw new Error("User is not an admin");
+	}
+};
+
+const verifyAdmin = async (req, res) => {
+	try {
+		isValidToken(req, res);
+		await validateToken(req, res);
+	} catch (error) {
+		console.log("Error", error);
+		throw error;
+	}
+	const token = req.headers.authorization.split(" ")[1];
+	const auth = await getAuthByToken(token);
+	const { email } = auth;
+	const user = await getUserByEmail(email);
+	if (user.role === "admin") {
+		return true;
+	} else {
+		return false;
+	}
+};
+
+
+
 module.exports = {
 	login,
 	logout,
 	sendRecoveryCode,
 	changePassword,
+	loginAdmin,
+	verifyAdmin,
 };
