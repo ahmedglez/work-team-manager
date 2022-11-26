@@ -1,6 +1,14 @@
 const client = require("../connections/PgConnection");
 
-const createTask = (title, description, address, client, importance = 1) => {
+
+/* CREATE */
+const createTask = (
+	title,
+	description,
+	address,
+	client,
+	importance = 1,
+) => {
 	const id = require("uuid").v4();
 	const state = "1";
 	const date = new Date();
@@ -26,6 +34,7 @@ const createTask = (title, description, address, client, importance = 1) => {
 		.catch((e) => console.error(e.stack));
 };
 
+/* QUERIES */
 const getAllTasks = () => {
 	const text = "SELECT * FROM public.tasks ORDER BY id ASC";
 	client
@@ -115,6 +124,7 @@ const getUsersAssigned = (id) => {
 		});
 };
 
+/* ASSING USER TO A TASK */
 const assignNewUserToTask = async (id, user) => {
 	const text = "UPDATE tasks SET users_assigned = $1 WHERE id = $2";
 	const users_assigned = await getUsersAssigned(id);
@@ -130,6 +140,7 @@ const assignNewUserToTask = async (id, user) => {
 		});
 };
 
+/* REMOVE AN USER FROM A TASK */
 const removeUserFromTask = async (id, user) => {
 	const text = "UPDATE tasks SET users_assigned = $1 WHERE id = $2";
 	const users_assigned = await getUsersAssigned(id);
@@ -145,6 +156,7 @@ const removeUserFromTask = async (id, user) => {
 		});
 };
 
+/* UPDATES */
 const updateTask = (
 	id,
 	title,
@@ -186,6 +198,7 @@ const updateStateByID = (id, state) => {
 		.catch((e) => console.error(e.stack));
 };
 
+/* DELETIONS */
 const deleteTask = (id) => {
 	const text = "DELETE FROM tasks WHERE id = $1";
 	const values = [id];
@@ -196,6 +209,17 @@ const deleteTask = (id) => {
 		})
 		.catch((e) => console.error(e.stack));
 };
+
+const deletAnUserFromTask = (id, user) => {
+	const text = "UPDATE tasks SET users_assigned = $1 WHERE id = $2";
+	const users_assigned = getUsersAssigned(id);
+	const newUsers = users_assigned.filter((u) => u !== user);
+	const values = [newUsers, id];
+	return client
+		.query(text, values)
+}
+
+
 
 module.exports = {
 	createTask,
@@ -210,4 +234,5 @@ module.exports = {
 	updateStateByID,
 	assignNewUserToTask,
 	removeUserFromTask,
+	deletAnUserFromTask,
 };

@@ -4,7 +4,6 @@ const dotenv = require("dotenv");
 const {
 	addAuth,
 	deleteAuthByToken,
-	getRecoveryCode,
 	setRecoveredCode,
 	getAuthByToken,
 	updatePassword,
@@ -22,6 +21,7 @@ const {
 dotenv.config({
 	path: ".env",
 });
+
 const { sendRecoveryCodeTo } = require("../../utils/sendEmails");
 
 const login = async (req, res) => {
@@ -106,8 +106,7 @@ const changePassword = async (req, res) => {
 		console.log("Code is valid");
 		await setRecoveredCode(token, null);
 		await updatePassword(token, password);
-	}
-	else {
+	} else {
 		throw new Error("Invalid code");
 		console.log("Code is invalid");
 	}

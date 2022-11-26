@@ -2,7 +2,8 @@ const { getAllUsers } = require("../crud/usersCrud");
 const UserModel = require("../schemas/user.schema");
 const db = require("../connections/MongoDBConnection");
 
-const migrateUsers = async () => {
+//migrate users from postgres to mongoDB
+const migrateUsersToMongo = async () => {
 	const users = await getAllUsers();
 
 	users.rows.forEach((user) => {
@@ -21,4 +22,3 @@ const migrateUsers = async () => {
 	});
 };
 
-migrateUsers();
