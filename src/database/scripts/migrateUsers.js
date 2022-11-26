@@ -14,7 +14,6 @@ const migrateUsersToMongo = async () => {
 			mobile: user.mobile,
 			email: user.email,
 			password: user.password,
-			role: user.role,
 			ci: user.ci,
 			address: user.address,
 		});
@@ -22,3 +21,4 @@ const migrateUsersToMongo = async () => {
 	});
 };
 
+migrateUsersToMongo();

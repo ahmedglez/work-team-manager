@@ -64,16 +64,10 @@ const isAlreadyLogged = async (req, res) => {
 		throw boom.badRequest("User already logged in");
 		res.status(401).send("User already logged in");
 	}
+	return isAlreadyLogged;
 };
 
-const isNotAlreadyLogged = async (req, res) => {
-	const { email } = req.body;
-	const isAlreadyLogged = await isAlreadyLoggedIn(email);
-	if (!isAlreadyLogged) {
-		throw boom.badRequest("User not logged in");
-		res.status(401).send("User not logged in");
-	}
-};
+
 
 const validateToken = async (req, res) => {
 	const token = req.headers.authorization.split(" ")[1];
@@ -90,6 +84,5 @@ module.exports = {
 	isAlreadyLogged,
 	isValidRecoveryCode,
 	isValidToken,
-	isNotAlreadyLogged,
 	validateToken,
 };

@@ -1,5 +1,10 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
+const path = require("path");
+const fs = require("fs");
+const basename = path.basename(__filename);
+
+
 
 const userSchema = new Schema({
 	nickname: {
@@ -21,16 +26,43 @@ const userSchema = new Schema({
 		type: String,
 		default: "admin1234",
 	},
-	role: {
-		type: Number,
-		required: true,
-		default: 1,
+	roles: {
+		type: Array,
+		default: ["user"],
 	},
 	ci: {
 		type: String,
 	},
 	address: {
 		type: String,
+	},
+	avatar: {
+		type: String,
+		default: path.join(__dirname, "../../assets/imgs/default-avatar.png"),
+	},
+	assignedTasks: [
+		{
+			type: Schema.Types.ObjectId,
+			ref: "Tasks",
+			default: [],
+		},
+	],
+
+	createdAt: {
+		type: Date,
+		default: Date.now,
+	},
+	updatedAt: {
+		type: Date,
+		default: Date.now,
+	},
+	token: {
+		type: String,
+		default: null,
+	},
+	refreshtoken: {
+		type: String,
+		default: null,
 	},
 });
 

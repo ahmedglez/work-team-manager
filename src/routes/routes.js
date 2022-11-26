@@ -4,7 +4,7 @@ const administratorRoutes = require("../services/admin/routes");
 
 const routes = function (server) {
 	server.use(authenticationRoutes);
-	server.use(administratorRoutes(server));
+	server.use(administratorRoutes);
 };
 
 module.exports = routes;
