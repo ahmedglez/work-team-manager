@@ -12,6 +12,9 @@ const getAllUsers = async () => {
 const getUser = async (id) => {
 	return await UserModel.findById(id);
 };
+const getUserByEmail = async (email) => {
+	return await UserModel.findOne({ email });
+};
 
 const updateUser = async (id, user) => {
 	return await UserModel.findByIdAndUpdate(
@@ -28,6 +31,7 @@ const deleteUser = async (id) => {
 module.exports = {
 	createUser,
 	getAllUsers,
+	getUserByEmail,
 	getUser,
 	updateUser,
 	deleteUser,

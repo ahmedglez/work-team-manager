@@ -6,7 +6,7 @@ const {
 	deleteUser,
 } = require("../database/crud/users.crud");
 
-const { hashPassword, comparePassword } = require("../utils/passwordEncript");
+const { hashPassword, comparePassword } = require("../utils/auth/passwordEncript");
 
 const getAllUsersHandler = async (req, res, next) => {
 	try {

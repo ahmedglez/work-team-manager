@@ -1,9 +1,9 @@
-const { config } = require("../config/enviroment.config");
+const { config } = require("../../config/enviroment.config");
 const nodemailer = require("nodemailer");
 const smtpTransport = require("nodemailer-smtp-transport");
 const handlebars = require("handlebars");
 const fs = require("fs");
-const { getUserByEmail } = require("../database/crud/usersCrud");
+const { getUserByEmail } = require("../../database/crud/users.crud");
 const path = require("path");
 const readHTMLFile = require("./readHtmlFile");
 
@@ -24,7 +24,7 @@ const sendRecoveryCodeTo = async (email, code) => {
 	);
 
 	readHTMLFile(
-		path.join(__dirname, "../assets/templates/email-template/index.html"),
+		path.join(__dirname, "../templates/recovery-password-email/index.html"),
 		function (err, html) {
 			if (err) {
 				console.log("error reading file", err);

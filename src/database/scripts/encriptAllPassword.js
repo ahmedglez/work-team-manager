@@ -1,4 +1,4 @@
-const { hashPassword } = require("../../utils/passwordEncript");
+const { hashPassword } = require("../../utils/auth/passwordEncript");
 const db = require("../connections/MongoDBConnection");
 
 const { getAllUsers, updateUser } = require("../crud/users.crud");
