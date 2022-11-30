@@ -1,17 +1,24 @@
 const {
 	createUser,
-	getUsers,
+	getAllUsers,
 	getUser,
 	updateUser,
 	deleteUser,
 } = require("../database/crud/users.crud");
 
+const { hashPassword, comparePassword } = require("../utils/passwordEncript");
+
 const getAllUsersHandler = async (req, res, next) => {
 	try {
-		const users = await getUsers();
-		console.log(users);
+		const users = await getAllUsers();
+		const usersWithoutPassword = users.map((user) => {
+			const { password, token, refreshtoken, roles, ...userWithoutPassword } =
+				user._doc;
+			return userWithoutPassword;
+		});
+
 		res.status(200).json({
-			data: users,
+			data: usersWithoutPassword,
 			message: "users listed",
 		});
 	} catch (error) {
@@ -24,8 +31,10 @@ const getUserByIdHandler = async (req, res, next) => {
 
 	try {
 		const user = await getUser(id);
+		const { password, token, refreshtoken, roles, ...userWithoutPassword } =
+			user._doc;
 		res.status(200).json({
-			data: user,
+			data: userWithoutPassword,
 			message: "user retrieved",
 		});
 	} catch (error) {
@@ -35,9 +44,14 @@ const getUserByIdHandler = async (req, res, next) => {
 
 const createUserHandler = async (req, res, next) => {
 	const { body: user } = req;
+	const encriptedPassword = hashPassword(user.password);
+	const newUser = {
+		...user,
+		password: encriptedPassword,
+	};
 
 	try {
-		const createdUser = await createUser(user);
+		const createdUser = await createUser(newUser);
 		res.status(201).json({
 			data: createdUser,
 			message: "user created",

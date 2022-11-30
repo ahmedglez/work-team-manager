@@ -5,7 +5,7 @@ const createUser = async (user) => {
 	return await newUser.save();
 };
 
-const getUsers = async () => {
+const getAllUsers = async () => {
 	return await UserModel.find({});
 };
 
@@ -27,7 +27,7 @@ const deleteUser = async (id) => {
 
 module.exports = {
 	createUser,
-	getUsers,
+	getAllUsers,
 	getUser,
 	updateUser,
 	deleteUser,
