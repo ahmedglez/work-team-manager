@@ -1,7 +1,4 @@
-const dotenv = require("dotenv");
-dotenv.config({
-	path: ".env",
-});
+const { config } = require("../config/enviroment.config");
 const nodemailer = require("nodemailer");
 const smtpTransport = require("nodemailer-smtp-transport");
 const handlebars = require("handlebars");
@@ -17,11 +14,11 @@ const sendRecoveryCodeTo = async (email, code) => {
 	const transporter = nodemailer.createTransport(
 		smtpTransport({
 			service: "gmail",
-			host: process.env.EMAIL_HOST,
+			host: config.development.email_host,
 			secure: true,
 			auth: {
-				user: process.env.EMAIL_USER,
-				pass: process.env.EMAIL_PASSWORD,
+				user: config.development.email_user,
+				pass: config.development.email_pass,
 			},
 		})
 	);
@@ -41,7 +38,7 @@ const sendRecoveryCodeTo = async (email, code) => {
 			const htmlToSend = template(replacements);
 
 			const mailOptions = {
-				from: process.env.EMAIL_USER,
+				from: config.development.email_user,
 				to: email,
 				subject: "Recuperacion de contraseña",
 				html: htmlToSend,

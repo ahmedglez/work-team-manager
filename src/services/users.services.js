@@ -6,9 +6,10 @@ const {
 	deleteUser,
 } = require("../database/crud/users.crud");
 
-const getAllUsers = async (req, res, next) => {
+const getAllUsersHandler = async (req, res, next) => {
 	try {
 		const users = await getUsers();
+		console.log(users);
 		res.status(200).json({
 			data: users,
 			message: "users listed",
@@ -18,7 +19,7 @@ const getAllUsers = async (req, res, next) => {
 	}
 };
 
-const getUserById = async (req, res, next) => {
+const getUserByIdHandler = async (req, res, next) => {
 	const { id } = req.params;
 
 	try {
@@ -32,7 +33,7 @@ const getUserById = async (req, res, next) => {
 	}
 };
 
-const createUser = async (req, res, next) => {
+const createUserHandler = async (req, res, next) => {
 	const { body: user } = req;
 
 	try {
@@ -46,7 +47,7 @@ const createUser = async (req, res, next) => {
 	}
 };
 
-const updateUser = async (req, res, next) => {
+const updateUserHandler = async (req, res, next) => {
 	const { id } = req.params;
 	const { body: user } = req;
 
@@ -61,7 +62,7 @@ const updateUser = async (req, res, next) => {
 	}
 };
 
-const deleteUser = async (req, res, next) => {
+const deleteUserHandler = async (req, res, next) => {
 	const { id } = req.params;
 
 	try {
@@ -76,9 +77,9 @@ const deleteUser = async (req, res, next) => {
 };
 
 module.exports = {
-	getAllUsers,
-	getUserById,
-	createUser,
-	updateUser,
-	deleteUser,
+	getAllUsersHandler,
+	getUserByIdHandler,
+	createUserHandler,
+	updateUserHandler,
+	deleteUserHandler,
 };

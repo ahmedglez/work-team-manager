@@ -1,5 +1,7 @@
-const express = require("express");
+const userRouter = require("../routes/users.routes");
 
-const routes = function (server) {};
+const addRoutes = (app) => {
+	app.use("/users", userRouter);
+};
 
-module.exports = routes;
+module.exports = addRoutes;

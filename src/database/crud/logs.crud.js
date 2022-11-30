@@ -1,4 +1,4 @@
-const LogModel = require("../schemas/log.schema");
+const LogModel = require("../../schemas/log.schema");
 
 const getAllLogs = async () => {
 	const logs = await LogModel.find();

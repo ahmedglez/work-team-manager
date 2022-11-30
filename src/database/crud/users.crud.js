@@ -1,4 +1,4 @@
-const UserModel = require("../schemas/user.schema");
+const UserModel = require("../../schemas/user.schema");
 
 const createUser = async (user) => {
 	const newUser = new UserModel(user);

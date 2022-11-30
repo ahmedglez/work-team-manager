@@ -1,12 +1,8 @@
-const dotenv = require("dotenv");
-dotenv.config({
-	path: ".env",
-});
+const { config } = require("../../config/enviroment.config");
 const db = require("mongoose");
 db.Promise = global.Promise;
 
-db.connect(process.env.MONGODB_URL, {
-})
+db.connect(config.development.dbURL, {})
 	.then(() => {
 		console.log("Connected to MongoDB");
 	})

@@ -1,4 +1,4 @@
-const ClientModel = require("../schemas/client.schema");
+const ClientModel = require("../../schemas/clients.schema");
 
 const getAllClients = async () => {
 	const clients = await ClientModel.find();

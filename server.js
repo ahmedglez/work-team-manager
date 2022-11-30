@@ -1,16 +1,13 @@
 /* IMPORTS */
-const dotenv = require("dotenv");
-dotenv.config({
-	path: ".env",
-});
+const { config } = require("./src/config/enviroment.config");
 const express = require("express");
 const cors = require("cors");
 const db = require("./src/database/connections/MongoDBConnection");
-const routes = require("./src/routes/routes");
-
+const addRoutes = require("./src/routes/routes");
 /* SERVER CONFIGURATION */
 const app = express();
-const port = process.env.SERVER_PORT || 3000;
+const port = config.development.port || 3000;
+
 app.use(express.json());
 const whitelist = ["http://localhost:8080", "https://myapp.co"];
 const options = {
@@ -29,7 +26,7 @@ app.get("/", (req, res) => {
 	res.send("Hello World!");
 });
 
-routes(app);
+addRoutes(app);
 
 /* MIDDLEWARES */
 
