@@ -1,4 +1,4 @@
-const LogModel = require("../database/schemas/log.schema");
+const LogModel = require("../schemas/log.schema");
 
 const getAllLogs = async () => {
 	const logs = await LogModel.find();
@@ -35,8 +35,8 @@ const getLogsInLastSevenDays = async () => {
 const createLog = async (user, action, message) => {
 	const log = new LogModel({
 		user: user,
-        action: action,
-        message: message
+		action: action,
+		message: message,
 	});
 	await log.save();
 };
