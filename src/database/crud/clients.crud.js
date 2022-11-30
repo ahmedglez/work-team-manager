@@ -58,3 +58,42 @@ const createClient = async (
 	});
 	await client.save();
 };
+
+const updateClient = async (
+	id,
+	nickname,
+	fullname,
+	phone,
+	mobile,
+	email,
+	location,
+	address,
+	type
+) => {
+	const client = await ClientModel.findById(id);
+	client.nickname = nickname;
+	client.fullname = fullname;
+	client.phone = phone;
+	client.mobile = mobile;
+	client.email = email;
+	client.location = location;
+	client.address = address;
+	client.type = type;
+	await client.save();
+};
+
+const deleteClient = async (id) => {
+	await Client.findByIdAndDelete(id);
+};
+
+module.exports = {
+	getAllClients,
+	getClientById,
+	getClientsbyType,
+	getClientsbyLocation,
+	getRecentClients,
+	getClientsInLastSevenDays,
+	createClient,
+	updateClient,
+	deleteClient,
+};

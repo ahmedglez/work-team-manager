@@ -14,7 +14,11 @@ const getUser = async (id) => {
 };
 
 const updateUser = async (id, user) => {
-	return await UserModel.findByIdAndUpdate(id, user);
+	return await UserModel.findByIdAndUpdate(
+		id,
+		{ ...user, updatedAt: Date.now() },
+		{ new: true }
+	);
 };
 
 const deleteUser = async (id) => {
