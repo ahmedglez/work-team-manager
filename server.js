@@ -1,6 +1,6 @@
 /* IMPORTS */
 const { config } = require("./src/config/enviroment.config");
-const passport = require("passport");
+const passport = require("./src/utils/auth/index");
 const express = require("express");
 const cors = require("cors");
 const db = require("./src/database/connections/MongoDBConnection");
@@ -31,6 +31,8 @@ addRoutes(app);
 
 /* MIDDLEWARES */
 app.use(passport.initialize());
+app.use(passport.session());
+
 
 /* SERVER START */
 app.listen(port, () => {

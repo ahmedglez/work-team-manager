@@ -13,13 +13,11 @@ const LocalStrategy = new Strategy(
 		try {
 			const user = await getUserByEmail(username);
 			if (!user) {
-				done(boom.unauthorized().message, false);
-				return;
+				throw boom.unauthorized();
 			}
 			const isValidPassword = comparePassword(password, user.password);
 			if (!isValidPassword) {
-				done(boom.unauthorized().message, false);
-				return;
+				throw boom.unauthorized();
 			}
 			const newUser = {
 				_id: user._id.toString(),
@@ -28,9 +26,8 @@ const LocalStrategy = new Strategy(
 				roles: user.roles,
 			};
 			done(null, newUser);
-			return;
-		} catch (error) {
-			done(error, false);
+		} catch (err) {
+			done(null, false);
 		}
 	}
 );
