@@ -13,21 +13,22 @@ const LocalStrategy = new Strategy(
 		try {
 			const user = await getUserByEmail(username);
 			if (!user) {
-				done(boom.unauthorized("Invalid email or password"), false);
+				done(boom.unauthorized().message, false);
+				return;
 			}
 			const isValidPassword = comparePassword(password, user.password);
 			if (!isValidPassword) {
-				done(boom.unauthorized("Invalid email or password"), false);
+				done(boom.unauthorized().message, false);
+				return;
 			}
 			const newUser = {
-				_id: user._id,
+				_id: user._id.toString(),
+				fullname: user.fullname,
 				email: user.email,
-				nickname: user.nickname,
-				fullname: user.fullName,
 				roles: user.roles,
-				role: user.role,
 			};
 			done(null, newUser);
+			return;
 		} catch (error) {
 			done(error, false);
 		}

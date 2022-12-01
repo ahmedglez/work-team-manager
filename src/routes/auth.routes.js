@@ -1,18 +1,24 @@
 const express = require("express");
 const passport = require("passport");
 const router = express.Router();
-
-passport.use(require("../utils/auth/strategies/local.strategy"));
+const LocalStrategy = require("../utils/auth/strategies/local.strategy");
+const { signToken } = require("../utils/auth/tokens/token-sign");
+passport.use(LocalStrategy);
 
 router.post(
 	"/login",
 	passport.authenticate("local", { session: false }),
 	async (req, res, next) => {
 		try {
-			res.status(200).json({
-				message: "Logged in Successfully",
-				user: req.user,
-			});
+			const user = req.user;
+			const payload = {
+				sub: user.id,
+				fullname: user.fullname,
+				email: user.email,
+				roles: user.roles,
+			};
+			const token = signToken(payload, { expiresIn: "1h" });
+			res.status(200).send({ user, token });
 		} catch (error) {
 			next(error);
 		}

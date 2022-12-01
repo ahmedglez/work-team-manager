@@ -2,6 +2,6 @@ const passport = require("passport");
 
 const LocalStrategy = require("./strategies/local.strategy");
 
-passport.use(require(LocalStrategy));
+passport.use(LocalStrategy);
 
 module.exports = passport;
