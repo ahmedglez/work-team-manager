@@ -1,6 +1,5 @@
 const express = require("express");
 const passport = require("passport");
-const LocalStrategy = require("../utils/auth/strategies/local.strategy");
 const { signToken } = require("../utils/auth/tokens/token-sign");
 const router = express.Router();
 

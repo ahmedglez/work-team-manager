@@ -6,4 +6,3 @@ const checkAuth = (req, res, next) => {
 
 module.exports = { checkAuth };
 
-// Path: src\middlewares\index.js
