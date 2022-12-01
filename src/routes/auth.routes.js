@@ -16,7 +16,7 @@ router.post(
 				email: user.email,
 				roles: user.roles,
 			};
-			const token = signToken(payload, { expiresIn: "1h" });
+			const token = signToken(payload, { expiresIn: "15 minutes" });
 			res.status(200).send({ user, token });
 		} catch (error) {
 			console.log(" Error on Auth ", error);
