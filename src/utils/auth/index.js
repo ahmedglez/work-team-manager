@@ -7,4 +7,3 @@ passport.use(LocalStrategy);
 passport.use(JwtStrategy);
 
 module.exports = passport;
-

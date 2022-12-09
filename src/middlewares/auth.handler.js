@@ -8,15 +8,14 @@ const checkAuth = (req, res, next) => {
 
 const checkRoles = (...roles) => {
 	return (req, res, next) => {
-		const user = req.user;
-		if (roles.includes(user.role)) {
-			next();
-		} else {
-			const error = boom.unauthorized(
-				"You are not authorized to perform this action"
-			);
-			next(res.status(error.output.statusCode).json(error.output.payload));
+		const { user } = req;
+		const user_roles_array = Object.values(user.roles);
+		const isRolesValid = roles.every((role) => user_roles_array.includes(role));
+		if (!isRolesValid) {
+			const error = boom.unauthorized("You don't have permission to access");
+			res.status(error.output.statusCode).json(error.output.payload);
 		}
+		next();
 	};
 };
 

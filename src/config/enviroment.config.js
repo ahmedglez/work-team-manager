@@ -6,7 +6,6 @@ const config = {
 		dbURL: process.env.MONGODB_URL,
 		api_key: process.env.API_KEY,
 		email_host: process.env.EMAIL_HOST,
-		email_user: process.env.EMAIL_USER,
 		email_pass: process.env.EMAIL_PASSWORD,
 		email_user: process.env.EMAIL_USER,
 	},

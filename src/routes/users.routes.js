@@ -14,9 +14,9 @@ const {
 	deleteAssignedRoleHandler,
 } = require("../services/users.services");
 
-router.get("/", checkAuth, checkRoles(["admin"]), getAllUsersHandler);
-router.get("/:id", checkAuth, checkRoles(["user"]), getUserByIdHandler);
-router.post("/", checkAuth, checkRoles(["admin"]), createUserHandler);
+router.get("/", checkAuth, checkRoles("admin"), getAllUsersHandler);
+router.get("/:id", checkAuth, checkRoles("user"), getUserByIdHandler);
+router.post("/", checkAuth, checkRoles("admin"), createUserHandler);
 router.post(
 	"/assignNewRole/:id",
 	checkAuth,
@@ -29,11 +29,11 @@ router.put(
 	checkRoles(["superadmin"]),
 	deleteAssignedRoleHandler
 );
-router.put("/:id", checkAuth, checkRoles(["user"]), updateUserHandler);
+router.put("/:id", checkAuth, checkRoles("user"), updateUserHandler);
 router.put(
 	"/changePassword/:id",
 	checkAuth,
-	checkRoles(["user"]),
+	checkRoles("user"),
 	updateUserPasswordHandler
 );
 router.delete("/:id", checkAuth, checkRoles(["superadmin"]), deleteUserHandler);

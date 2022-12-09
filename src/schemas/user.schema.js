@@ -58,6 +58,10 @@ const userSchema = new Schema({
 		type: Boolean,
 		default: false,
 	},
+	recoveryCode: {
+		type: String,
+		default: null,
+	},
 });
 
 const UserModel = mongoose.model("Users", userSchema);

@@ -1,6 +1,13 @@
 const express = require("express");
 const passport = require("passport");
 const { signToken } = require("../utils/auth/tokens/token-sign");
+const { checkAuth, checkRoles } = require("../middlewares/auth.handler");
+const {
+	recoverPassword,
+	verifyRecoveryCode,
+	resetPassword,
+} = require("../services/auth.services");
+
 const router = express.Router();
 
 router.post(
@@ -16,12 +23,19 @@ router.post(
 				roles: user.roles,
 			};
 			const token = signToken(payload, { expiresIn: "15 minutes" });
-			res.status(200).send({ user, token });
+			const refreshToken = signToken(payload, { expiresIn: "1 day" });
+			res.status(200).send({ user, token, refreshToken });
 		} catch (error) {
 			console.log(" Error on Auth ", error);
 			next(error);
 		}
 	}
 );
+
+router.post("/recover-password", recoverPassword);
+
+router.post("/verify-recovery-code", verifyRecoveryCode);
+
+router.post("/reset-password", checkAuth, resetPassword);
 
 module.exports = router;

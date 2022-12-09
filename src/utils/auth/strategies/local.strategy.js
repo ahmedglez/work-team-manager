@@ -21,6 +21,7 @@ const LocalStrategy = new Strategy(
 			}
 			const newUser = {
 				_id: user._id.toString(),
+				id: user._id.toString(),
 				fullname: user.fullname,
 				email: user.email,
 				roles: user.roles,

@@ -4,23 +4,23 @@ const router = express.Router();
 const { checkAuth, checkRoles } = require("../middlewares/auth.handler");
 
 const {
-	getAllTasks,
-	getTaskById,
-	getTasksByUser,
-	getTasksByStatus,
-	getRecentTasks,
-	createNewTask,
-	updateTaskById,
-	deleteTaskById,
+	getAllTasksHandler,
+	getTaskByIdHandler,
+	getTasksByUserHandler,
+	getTasksByStatusHandler,
+	getRecentTasksHandler,
+	createNewTaskHandler,
+	updateTaskByIdHandler,
+	deleteTaskByIdHandler,
 } = require("../services/tasks.services");
 
-router.get("/", checkAuth, checkRoles(["admin"]), getAllTasks);
-router.get("/:id", checkAuth, checkRoles(["user"]), getTaskById);
-router.get("/byUser", checkAuth, checkRoles(["user"]), getTasksByUser);
-router.get("/byStatus", checkAuth, checkRoles(["user"]), getTasksByStatus);
-router.get("/getRecent/", checkAuth, checkRoles(["user"]), getRecentTasks);
-router.post("/", checkAuth, checkRoles(["admin"]), createNewTask);
-router.put("/:id", checkAuth, checkRoles(["admin"]), updateTaskById);
-router.delete("/:id", checkAuth, checkRoles(["admin"]), deleteTaskById);
+router.get("/", checkAuth, checkRoles("admin"), getAllTasksHandler);
+router.get("/:id", checkAuth, checkRoles("user"), getTaskByIdHandler);
+router.get("/byUser", checkAuth, checkRoles("user"), getTasksByUserHandler);
+router.get("/byStatus", checkAuth, checkRoles("user"), getTasksByStatusHandler);
+router.get("/getRecent/", checkAuth, checkRoles("user"), getRecentTasksHandler);
+router.post("/", checkAuth, checkRoles("admin"), createNewTaskHandler);
+router.put("/:id", checkAuth, checkRoles("admin"), updateTaskByIdHandler);
+router.delete("/:id", checkAuth, checkRoles("admin"), deleteTaskByIdHandler);
 
 module.exports = router;

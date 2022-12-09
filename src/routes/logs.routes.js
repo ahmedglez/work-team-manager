@@ -12,37 +12,37 @@ const {
 	createLogHandler,
 } = require("../services/logs.services");
 
-router.get("/", checkAuth, checkRoles(["superadmin"]), getAllLogsHandler);
+router.get("/", checkAuth, checkRoles("superadmin"), getAllLogsHandler);
 router.get(
 	"/byUser/:user",
 	checkAuth,
-	checkRoles(["superadmin"]),
+	checkRoles("superadmin"),
 	getLogsByUserHandler
 );
 router.get(
 	"/byAction/:action",
 	checkAuth,
-	checkRoles(["superadmin"]),
+	checkRoles("superadmin"),
 	getLogsByActionHandler
 );
 router.get(
 	"/byDate",
 	checkAuth,
-	checkRoles(["superadmin"]),
+	checkRoles("superadmin"),
 	getLogsByDateHandler
 );
 router.get(
 	"/recent",
 	checkAuth,
-	checkRoles(["superadmin"]),
+	checkRoles("superadmin"),
 	getRecetLogsHandler
 );
 router.get(
 	"/last7Days",
 	checkAuth,
-	checkRoles(["superadmin"]),
+	checkRoles("superadmin"),
 	getLogsInLastSevenDaysHandler
 );
-router.post("/", checkAuth, checkRoles(["superadmin"]), createLogHandler);
+router.post("/", checkAuth, checkRoles("superadmin"), createLogHandler);
 
 module.exports = router;

@@ -8,11 +8,11 @@ const {
 	desassingTaskToUser,
 } = require("../services/assignments.services");
 
-router.post("/assing", checkAuth, checkRoles(["admin"]), assingTaskToUser);
+router.post("/assing", checkAuth, checkRoles("admin"), assingTaskToUser);
 router.post(
 	"/desassing",
 	checkAuth,
-	checkRoles(["admin"]),
+	checkRoles("admin"),
 	desassingTaskToUser
 );
 

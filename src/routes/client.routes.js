@@ -15,34 +15,34 @@ const {
 	deleteClientHandler,
 } = require("../services/clients.services.js");
 
-router.get("/", checkAuth, checkRoles(["admin"]), getAllClientsHandler);
-router.get("/:id", checkAuth, checkRoles(["admin"]), getClientByIdHandler);
+router.get("/", checkAuth, checkRoles("admin"), getAllClientsHandler);
+router.get("/:id", checkAuth, checkRoles("admin"), getClientByIdHandler);
 router.get(
 	"/byType/:type",
 	checkAuth,
-	checkRoles(["admin"]),
+	checkRoles("admin"),
 	getClientsbyTypeHandler
 );
 router.get(
 	"/byLocation/:location",
 	checkAuth,
-	checkRoles(["admin"]),
+	checkRoles("admin"),
 	getClientsbyLocationHandler
 );
 router.get(
 	"/recents",
 	checkAuth,
-	checkRoles(["admin"]),
+	checkRoles("admin"),
 	getRecentClientsHandler
 );
 router.get(
 	"/last7Days",
 	checkAuth,
-	checkRoles(["admin"]),
+	checkRoles("admin"),
 	getClientsInLastSevenDaysHandler
 );
-router.post("/", checkAuth, checkRoles(["admin"]), createClientHandler);
-router.put("/:id", checkAuth, checkRoles(["admin"]), updateClientHandler);
-router.delete("/:id", checkAuth, checkRoles(["superadmin"]), deleteClientHandler);
+router.post("/", checkAuth, checkRoles("admin"), createClientHandler);
+router.put("/:id", checkAuth, checkRoles("admin"), updateClientHandler);
+router.delete("/:id", checkAuth, checkRoles("superadmin"), deleteClientHandler);
 
 module.exports = router;

@@ -5,8 +5,11 @@ const {
 	updateTask,
 	deleteTask,
 } = require("../database/crud/tasks.crud");
+const boom = require("@hapi/boom");
 
-const getAllTasks = async (req, res, next) => {
+const { getUserByEmail, getUser } = require("../database/crud/users.crud");
+
+const getAllTasksHandler = async (req, res, next) => {
 	try {
 		const tasks = await getTasks();
 		res.status(200).json({
@@ -18,7 +21,7 @@ const getAllTasks = async (req, res, next) => {
 	}
 };
 
-const getTaskById = async (req, res, next) => {
+const getTaskByIdHandler = async (req, res, next) => {
 	const { id } = req.params;
 	try {
 		const task = await getTask(id);
@@ -31,20 +34,22 @@ const getTaskById = async (req, res, next) => {
 	}
 };
 
-const getTasksByUser = async (req, res, next) => {
-	const { user } = req.params;
+const getTasksByUserHandler = async (req, res, next) => {
+	const user = req.user;
 	try {
-		const tasks = await getTasksByUser(user);
+		const user2 = await getUserByEmail(user.email);
+		const tasks = user2.assignedTasks;
 		res.status(200).json({
 			data: tasks,
 			message: "tasks listed",
 		});
 	} catch (error) {
-		next(error);
+		const err = boom.badImplementation("Error retrieving tasks");
+		res.status(err.output.statusCode).json(err.output.payload);
 	}
 };
 
-const getTasksByStatus = async (req, res, next) => {
+const getTasksByStatusHandler = async (req, res, next) => {
 	const { status } = req.params;
 
 	try {
@@ -58,7 +63,7 @@ const getTasksByStatus = async (req, res, next) => {
 	}
 };
 
-const getRecentTasks = async (req, res, next) => {
+const getRecentTasksHandler = async (req, res, next) => {
 	try {
 		const tasks = await getRecentTasks();
 		res.status(200).json({
@@ -70,7 +75,7 @@ const getRecentTasks = async (req, res, next) => {
 	}
 };
 
-const createNewTask = async (req, res, next) => {
+const createNewTaskHandler = async (req, res, next) => {
 	const { body: task } = req;
 
 	try {
@@ -84,7 +89,7 @@ const createNewTask = async (req, res, next) => {
 	}
 };
 
-const updateTaskById = async (req, res, next) => {
+const updateTaskByIdHandler = async (req, res, next) => {
 	const { id } = req.params;
 	const { body: task } = req;
 
@@ -99,7 +104,7 @@ const updateTaskById = async (req, res, next) => {
 	}
 };
 
-const deleteTaskById = async (req, res, next) => {
+const deleteTaskByIdHandler = async (req, res, next) => {
 	const { id } = req.params;
 
 	try {
@@ -114,12 +119,12 @@ const deleteTaskById = async (req, res, next) => {
 };
 
 module.exports = {
-	getAllTasks,
-	getTaskById,
-	getTasksByUser,
-	getTasksByStatus,
-	getRecentTasks,
-	createNewTask,
-	updateTaskById,
-	deleteTaskById,
+	getAllTasksHandler,
+	getTaskByIdHandler,
+	getTasksByUserHandler,
+	getTasksByStatusHandler,
+	getRecentTasksHandler,
+	createNewTaskHandler,
+	updateTaskByIdHandler,
+	deleteTaskByIdHandler,
 };

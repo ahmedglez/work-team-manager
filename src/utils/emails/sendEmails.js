@@ -5,54 +5,58 @@ const handlebars = require("handlebars");
 const fs = require("fs");
 const { getUserByEmail } = require("../../database/crud/users.crud");
 const path = require("path");
-const readHTMLFile = require("./readHtmlFile");
+const readHTMLFile = require("../files/readHTMLFile");
 
 const sendRecoveryCodeTo = async (email, code) => {
-	const user = await getUserByEmail(email);
-	const firstName = user.rows[0].fullname.split(" ")[0];
+	try {
+		const user = await getUserByEmail(email);
+		const firstName = user.fullname.split(" ")[0];
+		const transporter = nodemailer.createTransport(
+			smtpTransport({
+				service: "gmail",
+				host: config.development.email_host,
+				secure: true,
+				auth: {
+					user: config.development.email_user,
+					pass: config.development.email_pass,
+				},
+			})
+		);
 
-	const transporter = nodemailer.createTransport(
-		smtpTransport({
-			service: "gmail",
-			host: config.development.email_host,
-			secure: true,
-			auth: {
-				user: config.development.email_user,
-				pass: config.development.email_pass,
-			},
-		})
-	);
-
-	readHTMLFile(
-		path.join(__dirname, "../templates/recovery-password-email/index.html"),
-		function (err, html) {
-			if (err) {
-				console.log("error reading file", err);
-				return;
-			}
-			const template = handlebars.compile(html);
-			const replacements = {
-				username: firstName,
-				verificationCode: code,
-			};
-			const htmlToSend = template(replacements);
-
-			const mailOptions = {
-				from: config.development.email_user,
-				to: email,
-				subject: "Recuperacion de contraseña",
-				html: htmlToSend,
-			};
-
-			transporter.sendMail(mailOptions, function (error, info) {
-				if (error) {
-					console.log(error);
-				} else {
-					console.log("Email sent: " + info.response);
+		readHTMLFile(
+			path.join(__dirname, "../../templates/emails/recoveryCode.html"),
+			function (err, html) {
+				if (err) {
+					console.log("error reading file", err);
+					return;
 				}
-			});
-		}
-	);
+
+				const template = handlebars.compile(html);
+				const replacements = {
+					username: firstName,
+					verificationCode: code,
+				};
+				const htmlToSend = template(replacements);
+
+				const mailOptions = {
+					from: config.development.email_user,
+					to: email,
+					subject: "Recuperacion de contraseña",
+					html: htmlToSend,
+				};
+
+				transporter.sendMail(mailOptions, function (error, info) {
+					if (error) {
+						console.log(error);
+					} else {
+						console.log("Email sent: " + info.response);
+					}
+				});
+			}
+		);
+	} catch (error) {
+		console.log("error on sending email", error);
+	}
 };
 
 module.exports = { sendRecoveryCodeTo };
