@@ -10,7 +10,7 @@ const {
 	deleteClient,
 } = require("../database/crud/clients.crud");
 
-const getAllClients = async (req, res, next) => {
+const getAllClientsHandler = async (req, res, next) => {
 	try {
 		const clients = await getAllClients();
 		res.status(200).json({
@@ -22,7 +22,7 @@ const getAllClients = async (req, res, next) => {
 	}
 };
 
-const getClientById = async (req, res, next) => {
+const getClientByIdHandler = async (req, res, next) => {
 	const { id } = req.params;
 
 	try {
@@ -36,7 +36,7 @@ const getClientById = async (req, res, next) => {
 	}
 };
 
-const getClientsbyType = async (req, res, next) => {
+const getClientsbyTypeHandler = async (req, res, next) => {
 	const { type } = req.params;
 
 	try {
@@ -50,7 +50,7 @@ const getClientsbyType = async (req, res, next) => {
 	}
 };
 
-const getClientsbyLocation = async (req, res, next) => {
+const getClientsbyLocationHandler = async (req, res, next) => {
 	const { location } = req.params;
 
 	try {
@@ -64,7 +64,7 @@ const getClientsbyLocation = async (req, res, next) => {
 	}
 };
 
-const getRecentClients = async (req, res, next) => {
+const getRecentClientsHandler = async (req, res, next) => {
 	try {
 		const clients = await getRecentClients();
 		res.status(200).json({
@@ -76,7 +76,7 @@ const getRecentClients = async (req, res, next) => {
 	}
 };
 
-const getClientsInLastSevenDays = async (req, res, next) => {
+const getClientsInLastSevenDaysHandler = async (req, res, next) => {
 	try {
 		const clients = await getClientsInLastSevenDays();
 		res.status(200).json({
@@ -88,7 +88,7 @@ const getClientsInLastSevenDays = async (req, res, next) => {
 	}
 };
 
-const createClient = async (req, res, next) => {
+const createClientHandler = async (req, res, next) => {
 	const { nickname, fullname, phone, mobile, email, location, address, type } =
 		req.body;
 
@@ -112,7 +112,7 @@ const createClient = async (req, res, next) => {
 	}
 };
 
-const updateClient = async (req, res, next) => {
+const updateClientHandler = async (req, res, next) => {
 	const { id } = req.params;
 	const { nickname, fullname, phone, mobile, email, location, address, type } =
 		req.body;
@@ -138,7 +138,7 @@ const updateClient = async (req, res, next) => {
 	}
 };
 
-const deleteClient = async (req, res, next) => {
+const deleteClientHandler = async (req, res, next) => {
 	const { id } = req.params;
 
 	try {
@@ -153,13 +153,13 @@ const deleteClient = async (req, res, next) => {
 };
 
 module.exports = {
-	getAllClients,
-	getClientById,
-	getClientsbyType,
-	getClientsbyLocation,
-	getRecentClients,
-	getClientsInLastSevenDays,
-	createClient,
-	updateClient,
-	deleteClient,
+	getAllClientsHandler,
+	getClientByIdHandler,
+	getClientsbyTypeHandler,
+	getClientsbyLocationHandler,
+	getRecentClientsHandler,
+	getClientsInLastSevenDaysHandler,
+	createClientHandler,
+	updateClientHandler,
+	deleteClientHandler,
 };

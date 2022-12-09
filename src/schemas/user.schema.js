@@ -4,8 +4,6 @@ const path = require("path");
 const fs = require("fs");
 const basename = path.basename(__filename);
 
-
-
 const userSchema = new Schema({
 	nickname: {
 		type: String,
@@ -56,13 +54,9 @@ const userSchema = new Schema({
 		type: Date,
 		default: Date.now,
 	},
-	token: {
-		type: String,
-		default: null,
-	},
-	refreshtoken: {
-		type: String,
-		default: null,
+	isActive: {
+		type: Boolean,
+		default: false,
 	},
 });
 

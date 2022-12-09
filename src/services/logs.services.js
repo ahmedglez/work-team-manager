@@ -8,7 +8,7 @@ const {
 	createLog,
 } = require("../database/crud/logs.crud");
 
-const getAllLogs = async (req, res, next) => {
+const getAllLogsHandler = async (req, res, next) => {
 	try {
 		const logs = await getAllLogs();
 		res.status(200).json({
@@ -20,7 +20,7 @@ const getAllLogs = async (req, res, next) => {
 	}
 };
 
-const getLogsByUser = async (req, res, next) => {
+const getLogsByUserHandler = async (req, res, next) => {
 	const { user } = req.params;
 
 	try {
@@ -34,7 +34,7 @@ const getLogsByUser = async (req, res, next) => {
 	}
 };
 
-const getLogsByAction = async (req, res, next) => {
+const getLogsByActionHandler = async (req, res, next) => {
 	const { action } = req.params;
 
 	try {
@@ -48,7 +48,7 @@ const getLogsByAction = async (req, res, next) => {
 	}
 };
 
-const getLogsByDate = async (req, res, next) => {
+const getLogsByDateHandler = async (req, res, next) => {
 	const { date } = req.params;
 
 	try {
@@ -62,7 +62,7 @@ const getLogsByDate = async (req, res, next) => {
 	}
 };
 
-const getRecetLogs = async (req, res, next) => {
+const getRecetLogsHandler = async (req, res, next) => {
 	try {
 		const logs = await getRecetLogs();
 		res.status(200).json({
@@ -74,7 +74,7 @@ const getRecetLogs = async (req, res, next) => {
 	}
 };
 
-const getLogsInLastSevenDays = async (req, res, next) => {
+const getLogsInLastSevenDaysHandler = async (req, res, next) => {
 	try {
 		const logs = await getLogsInLastSevenDays();
 		res.status(200).json({
@@ -86,9 +86,8 @@ const getLogsInLastSevenDays = async (req, res, next) => {
 	}
 };
 
-const createLog = async (req, res, next) => {
+const createLogHandler = async (req, res, next) => {
 	const { user, action, date } = req.body;
-
 	try {
 		const createdLog = await createLog(user, action, date);
 		res.status(201).json({
@@ -101,11 +100,11 @@ const createLog = async (req, res, next) => {
 };
 
 module.exports = {
-	getAllLogs,
-	getLogsByUser,
-	getLogsByAction,
-	getLogsByDate,
-	getRecetLogs,
-	getLogsInLastSevenDays,
-	createLog,
+	getAllLogsHandler,
+	getLogsByUserHandler,
+	getLogsByActionHandler,
+	getLogsByDateHandler,
+	getRecetLogsHandler,
+	getLogsInLastSevenDaysHandler,
+	createLogHandler,
 };
