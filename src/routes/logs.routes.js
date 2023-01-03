@@ -2,46 +2,39 @@ const express = require("express");
 const router = express.Router();
 const { checkAuth, checkRoles } = require("../middlewares/auth.handler");
 
-const {
-	getAllLogsHandler,
-	getLogsByUserHandler,
-	getLogsByActionHandler,
-	getLogsByDateHandler,
-	getRecetLogsHandler,
-	getLogsInLastSevenDaysHandler,
-	createLogHandler,
-} = require("../services/logs.services");
+const LogServices = require("../services/logs.services");
+const service = LogServices();
 
-router.get("/", checkAuth, checkRoles("superadmin"), getAllLogsHandler);
+router.get("/", checkAuth, checkRoles("superadmin"), service.getAllLogsHandler);
 router.get(
 	"/byUser/:user",
 	checkAuth,
 	checkRoles("superadmin"),
-	getLogsByUserHandler
+	service.getLogsByUserHandler
 );
 router.get(
 	"/byAction/:action",
 	checkAuth,
 	checkRoles("superadmin"),
-	getLogsByActionHandler
+	service.getLogsByActionHandler
 );
 router.get(
 	"/byDate",
 	checkAuth,
 	checkRoles("superadmin"),
-	getLogsByDateHandler
+	service.getLogsByDateHandler
 );
 router.get(
 	"/recent",
 	checkAuth,
 	checkRoles("superadmin"),
-	getRecetLogsHandler
+	service.getRecetLogsHandler
 );
 router.get(
 	"/last7Days",
 	checkAuth,
 	checkRoles("superadmin"),
-	getLogsInLastSevenDaysHandler
+	service.getLogsInLastSevenDaysHandler
 );
 router.post("/", checkAuth, checkRoles("superadmin"), createLogHandler);
 

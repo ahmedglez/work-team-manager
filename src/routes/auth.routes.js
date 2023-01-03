@@ -2,11 +2,8 @@ const express = require("express");
 const passport = require("passport");
 const { signToken } = require("../utils/auth/tokens/token-sign");
 const { checkAuth, checkRoles } = require("../middlewares/auth.handler");
-const {
-	recoverPassword,
-	verifyRecoveryCode,
-	resetPassword,
-} = require("../services/auth.services");
+const AuthServices = require("../services/auth.services");
+const service = AuthServices();
 
 const router = express.Router();
 
@@ -32,10 +29,9 @@ router.post(
 	}
 );
 
-router.post("/recover-password", recoverPassword);
+router.post("/recover-password", service.recoverPassword);
 
-router.post("/verify-recovery-code", verifyRecoveryCode);
+router.post("/verify-recovery-code", service.verifyRecoveryCode);
 
-router.post("/reset-password", checkAuth, resetPassword);
-
+router.post("/reset-password", checkAuth, service.resetPassword);
 module.exports = router;

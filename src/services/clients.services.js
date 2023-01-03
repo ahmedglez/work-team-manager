@@ -10,7 +10,9 @@ const {
 	deleteClient,
 } = require("../database/crud/clients.crud");
 
-const getAllClientsHandler = async (req, res, next) => {
+
+const ClientServices = () => {
+	const getAllClientsHandler = async (req, res, next) => {
 	try {
 		const clients = await getAllClients();
 		res.status(200).json({
@@ -152,7 +154,8 @@ const deleteClientHandler = async (req, res, next) => {
 	}
 };
 
-module.exports = {
+
+return{
 	getAllClientsHandler,
 	getClientByIdHandler,
 	getClientsbyTypeHandler,
@@ -162,4 +165,8 @@ module.exports = {
 	createClientHandler,
 	updateClientHandler,
 	deleteClientHandler,
+	};
+	
 };
+
+module.exports = ClientServices;

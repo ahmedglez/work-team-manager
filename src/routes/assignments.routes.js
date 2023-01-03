@@ -3,17 +3,20 @@ const router = express.Router();
 
 const { checkAuth, checkRoles } = require("../middlewares/auth.handler");
 
-const {
-	assingTaskToUser,
-	desassingTaskToUser,
-} = require("../services/assignments.services");
+const AssignmentsServices = require("../services/assignments.services");
+const service = AssignmentsServices();
 
-router.post("/assing", checkAuth, checkRoles("admin"), assingTaskToUser);
+router.post(
+	"/assing",
+	checkAuth,
+	checkRoles("admin"),
+	service.assingTaskToUser
+);
 router.post(
 	"/desassing",
 	checkAuth,
 	checkRoles("admin"),
-	desassingTaskToUser
+	service.desassingTaskToUser
 );
 
 module.exports = router;
