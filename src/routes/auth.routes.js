@@ -21,7 +21,7 @@ router.post(
 			};
 			const token = signToken(payload, { expiresIn: "15 minutes" });
 			const refreshToken = signToken(payload, { expiresIn: "1 day" });
-			res.status(200).send({ user, token, refreshToken });
+			res.status(200).send({ token, refreshToken });
 		} catch (error) {
 			console.log(" Error on Auth ", error);
 			next(error);

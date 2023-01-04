@@ -4,6 +4,7 @@ const clientRouter = require("../routes/client.routes");
 const taskRouter = require("../routes/task.routes");
 const logRouter = require("../routes/logs.routes");
 const assignmentsRouter = require("../routes/assignments.routes");
+const profileRouter = require("../routes/profile.routes");
 
 const addRoutes = (app) => {
 	app.use("/users", userRouter);
@@ -11,7 +12,8 @@ const addRoutes = (app) => {
 	app.use("/clients", clientRouter);
 	app.use("/tasks", taskRouter);
 	app.use("/logs", logRouter);
-	app.use("/assignments", assignmentsRouter)
+	app.use("/assignments", assignmentsRouter);
+	app.use("/me", profileRouter);
 };
 
 module.exports = addRoutes;
