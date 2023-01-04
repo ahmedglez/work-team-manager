@@ -33,7 +33,6 @@ addRoutes(app);
 app.use(passport.initialize());
 app.use(passport.session());
 
-
 /* SERVER START */
 app.listen(port, () => {
 	console.log(`Server running on port ${port}`);

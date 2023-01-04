@@ -2,6 +2,7 @@ const {
 	createUser,
 	getAllUsers,
 	getUser,
+	getUserByEmail,
 	updateUser,
 	deleteUser,
 } = require("../database/crud/users.crud");
@@ -38,6 +39,22 @@ const UserServices = () => {
 				data: userWithoutPassword,
 				message: "user retrieved",
 			});
+		} catch (error) {
+			next(error);
+		}
+	};
+
+	const getUserbyEmailHandler = async (req, res, next) => {
+		const { email } = req.body;
+		try {
+			const user = await getUserByEmail(email);
+			const { password, token, refreshtoken, roles, ...userWithoutPassword } =
+				user._doc;
+			res.status(200).json({
+				data: userWithoutPassword,
+				message: "user retrieved",
+			});
+			return user;
 		} catch (error) {
 			next(error);
 		}

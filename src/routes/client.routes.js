@@ -37,8 +37,13 @@ router.get(
 	checkRoles("admin"),
 	service.getClientsInLastSevenDaysHandler
 );
-router.post("/", checkAuth, checkRoles("admin"), createClientHandler);
-router.put("/:id", checkAuth, checkRoles("admin"), updateClientHandler);
-router.delete("/:id", checkAuth, checkRoles("superadmin"), deleteClientHandler);
+router.post("/", checkAuth, checkRoles("admin"), service.createClientHandler);
+router.put("/:id", checkAuth, checkRoles("admin"), service.updateClientHandler);
+router.delete(
+	"/:id",
+	checkAuth,
+	checkRoles("superadmin"),
+	service.deleteClientHandler
+);
 
 module.exports = router;

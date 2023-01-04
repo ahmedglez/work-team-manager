@@ -36,6 +36,6 @@ router.get(
 	checkRoles("superadmin"),
 	service.getLogsInLastSevenDaysHandler
 );
-router.post("/", checkAuth, checkRoles("superadmin"), createLogHandler);
+router.post("/", checkAuth, checkRoles("superadmin"), service.createLogHandler);
 
 module.exports = router;

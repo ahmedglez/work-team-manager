@@ -29,7 +29,7 @@ const main = async () => {
 	const fromDb = await MongoClient.connect(config.development.localDB, {});
 	console.log("Connecting to remoteDB: ", config.development.dbURL);
 	var toDb = await MongoClient.connect(config.development.dbURL, {});
-	toDb = toDb.db("virtual-job-board-DB");
+	toDb = toDb.db("test");
 	console.log("Migrating data from localDB to remoteDB");
 	await migrateAllCollections(fromDb, toDb);
 	await fromDb.close();

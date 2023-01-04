@@ -7,6 +7,7 @@ const basename = path.basename(__filename);
 const userSchema = new Schema({
 	nickname: {
 		type: String,
+		unique: true,
 	},
 	fullname: {
 		type: String,
@@ -30,6 +31,7 @@ const userSchema = new Schema({
 	},
 	ci: {
 		type: String,
+		unique: true,
 	},
 	address: {
 		type: String,
