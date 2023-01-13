@@ -6,7 +6,7 @@ const cors = require("cors");
 const db = require("./src/database/connections/MongoDBConnection");
 const addRoutes = require("./src/routes/routes");
 /* SERVER CONFIGURATION */
-const app = express();
+const app = require("./src/app/app");
 const port = config.development.port || 3000;
 
 app.use(express.json());
