@@ -5,7 +5,16 @@ const handlebars = require("handlebars");
 const fs = require("fs");
 const { getUserByEmail } = require("../../database/crud/users.crud");
 const path = require("path");
-const readHTMLFile = require("../../utils/files/readHtmlFile");
+
+function readHTMLFile(path, callback) {
+	fs.readFile(path, { encoding: "utf-8" }, function (err, html) {
+		if (err) {
+			callback(err);
+		} else {
+			callback(null, html);
+		}
+	});
+}
 
 const sendRecoveryCodeTo = async (email, code) => {
 	try {
