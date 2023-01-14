@@ -1,7 +1,6 @@
 {
 	"version": 2,
 	"name": "Virtual Job Bord",
-	"description": "Application made with Nodejs, mongoDB and React.js to manage the daily work assignments of a work team",
 	"builds": [
 		{
 			"src": "index.js",
