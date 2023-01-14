@@ -5,7 +5,7 @@ const handlebars = require("handlebars");
 const fs = require("fs");
 const { getUserByEmail } = require("../../database/crud/users.crud");
 const path = require("path");
-const readHTMLFile = require("../files/readHTMLFile");
+const readHTMLFile = require("../../utils/files/readHtmlFile");
 
 const sendRecoveryCodeTo = async (email, code) => {
 	try {
