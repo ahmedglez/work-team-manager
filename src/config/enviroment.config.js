@@ -1,11 +1,16 @@
-require("dotenv").config({ path: __dirname + "/../../.env" })	
+require("dotenv").config({ path: __dirname + "/../../.env" });
 
 const config = {
 	development: {
+		database: {
+			localDB: process.env.MONGODB_LOCAL_URL,
+			host: process.env.MONGOHOST,
+			password: process.env.MONGOPASSWORD,
+			user: process.env.MONGOUSER,
+			port: process.env.MONGOPORT,
+		},
 		port: process.env.SERVER_PORT,
-		localDB: process.env.MONGODB_LOCAL_URL,
-		dbURL: process.env.MONGODB_URL,
-		dbName:process.env.MONGODB_NAME,
+
 		api_key: process.env.API_KEY,
 		email_host: process.env.EMAIL_HOST,
 		email_pass: process.env.EMAIL_PASSWORD,

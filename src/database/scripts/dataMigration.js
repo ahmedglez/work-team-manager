@@ -25,8 +25,8 @@ const migrateAllCollections = async (fromDb, toDb) => {
 };
 
 const main = async () => {
-	console.log("Connecting to localDB: ", config.development.localDB);
-	const fromDb = await MongoClient.connect(config.development.localDB, {});
+	console.log("Connecting to localDB: ", config.development.database.localDB);
+	const fromDb = await MongoClient.connect(config.development.database.localDB, {});
 	console.log("Connecting to remoteDB: ", config.development.dbURL);
 	var toDb = await MongoClient.connect(config.development.dbURL, {});
 	toDb = toDb.db("test");

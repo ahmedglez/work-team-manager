@@ -1,9 +1,9 @@
 const { config } = require("../../config/enviroment.config");
 const db = require("mongoose");
 db.Promise = global.Promise;
-console.log("Connecting to MongoDB");
-console.log(config.development.dbURL);
-db.connect(config.development.dbURL, {})
+const { host, password, port, user } = config.development.database;
+const MONGO_URL = `mongodb://${user}:${password}@${host}:${port}`;
+db.connect(MONGO_URL, {})
 	.then(() => {
 		console.log("Connected to MongoDB");
 	})
