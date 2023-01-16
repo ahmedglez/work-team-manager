@@ -27,7 +27,11 @@ app.use(cors(options));
 
 /* ROUTES */
 app.get("/", (req, res) => {
-	res.send("Hello World!");
+	res.send(
+		`This is the root of the backend server for the Virtual Job Board project :D,
+		 please check the documentation on github for more information about the endpoints. 
+		 `
+	);
 });
 
 addRoutes(app);
