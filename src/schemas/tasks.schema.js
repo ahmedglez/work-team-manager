@@ -4,15 +4,20 @@ const Schema = mongoose.Schema;
 const taskSchema = new Schema({
 	title: {
 		type: String,
+		required: true,
 	},
 	description: {
 		type: String,
 	},
 	status: {
 		type: String,
+		default: "pending",
+		enum: ["pending", "in progress", "done"],
 	},
 	priority: {
 		type: String,
+		default: "low",
+		enum: ["low", "medium", "high"],
 	},
 	assignedTo: [
 		{

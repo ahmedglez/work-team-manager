@@ -4,6 +4,8 @@ const Schema = mongoose.Schema;
 const clientSchema = new Schema({
     nickname: {
         type: String,
+        unique: true,
+        required: true,
     },
     fullname: {
         type: String,
