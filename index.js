@@ -11,14 +11,13 @@ const port = config.development.port || 3000;
 
 app.use(express.json());
 
-const options = {
-	origin: "http://localhost:3000",
-	optionsSuccessStatus: 200,
-	allowedHeaders: ["Content-Type", "Authorization"],
-	methods: ["GET", "POST", "PUT", "DELETE"],
-};
+const whiteList = [
+	"http://localhost:3000",
+	"http://localhost:3001",
+	"https://virtual-job-board-1ltyju106-ahmedglez.vercel.app/",
+];
 
-app.use(cors({ credentials: true }));
+app.use(cors({ origin: whiteList }));
 
 /* ROUTES */
 app.get("/", (req, res) => {
