@@ -17,6 +17,7 @@ const whiteList = [
 	"http://localhost:3000/authentication/sign-in",
 	"http://localhost:3000/dashboard",
 	"https://virtual-job-board-1ltyju106-ahmedglez.vercel.app/",
+	"http://localhost:3000/vision-ui-dashboard-react",
 ];
 
 app.use(cors({ origin: whiteList }));
