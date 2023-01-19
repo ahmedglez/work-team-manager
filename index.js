@@ -11,8 +11,14 @@ const port = config.development.port || 3000;
 
 app.use(express.json());
 
+const options = {
+	origin: "http://localhost:3000",
+	optionsSuccessStatus: 200,
+	allowedHeaders: ["Content-Type", "Authorization"],
+	methods: ["GET", "POST", "PUT", "DELETE"],
+};
 
-app.use(cors);
+app.use(cors({ credentials: true }));
 
 /* ROUTES */
 app.get("/", (req, res) => {
