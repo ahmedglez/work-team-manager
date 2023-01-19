@@ -20,7 +20,7 @@ const whiteList = [
 	"http://localhost:3000/vision-ui-dashboard-react",
 ];
 
-app.use(cors({ origin: whiteList }));
+app.use(cors({ origin: whiteList, methods: ["GET", "POST", "PUT", "DELETE"] }));
 
 /* ROUTES */
 app.get("/", (req, res) => {
