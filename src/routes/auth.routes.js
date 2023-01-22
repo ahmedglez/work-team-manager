@@ -34,4 +34,12 @@ router.post("/recover-password", service.recoverPassword);
 router.post("/verify-recovery-code", service.verifyRecoveryCode);
 
 router.post("/reset-password", checkAuth, service.resetPassword);
+
+router.post(
+	"/refresh-token",
+	checkAuth,
+	checkRoles("user"),
+	service.refreshToken
+);
+
 module.exports = router;

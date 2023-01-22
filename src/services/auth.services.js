@@ -92,11 +92,39 @@ const AuthServices = () => {
 		}
 	};
 
-	return {
-		recoverPassword,
-		verifyRecoveryCode,
-		resetPassword,
+	const refreshToken = async (req, res, next) => {
+		try {
+			const { refreshToken } = req.body;
+			const payload = verifyToken(refreshToken);
+			const user = await getUser(payload.sub);
+			if (!user) {
+				const error = boom.notFound("User not found");
+				res.status(error.output.statusCode).json(error.output.payload);
+				next(error);
+			}
+			const newPayload = {
+				sub: user.id,
+				fullname: user.fullname,
+				email: user.email,
+				roles: user.roles,
+			};
+			const newToken = signToken(newPayload, { expiresIn: "15 minutes" });
+			const newRefreshToken = signToken(newPayload, { expiresIn: "1 hour" });
+			res.status(200).send({
+				message: "Token refreshed",
+				token: newToken,
+				refreshToken: newRefreshToken,
+			});
+		} catch (error) {
+			next(error);
+		}
 	};
+};
+
+return {
+	recoverPassword,
+	verifyRecoveryCode,
+	resetPassword,
 };
 
 module.exports = AuthServices;
