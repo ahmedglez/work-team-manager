@@ -106,7 +106,7 @@ const AuthServices = () => {
 				roles: user.roles,
 			};
 			const newToken = signToken(newPayload, { expiresIn: "15 minutes" });
-			const newRefreshToken = signToken(newPayload, { expiresIn: "1 hour" });
+			const newRefreshToken = signToken(newPayload, { expiresIn: "1 day" });
 			res.status(200).send({
 				message: "Token refreshed",
 				token: newToken,
