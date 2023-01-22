@@ -30,7 +30,7 @@ const AuthServices = () => {
 			await sendRecoveryCodeTo(email, recoveryCode, next);
 			res.status(200).send({ message: "Recovery code email sent", token });
 		} catch (error) {
-			const err = boom.badImplementation("Error sending recovery code");
+			const err = boom.badImplementation("Error sending email");
 			res.status(err.output.statusCode).json(err.output.payload);
 		}
 	};
