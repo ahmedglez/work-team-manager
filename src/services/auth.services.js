@@ -27,7 +27,7 @@ const AuthServices = () => {
 			const payload = { email, recoveryCode };
 			const token = signToken(payload, { expiresIn: "15 minutes" });
 
-			await sendRecoveryCodeTo(email, recoveryCode);
+			await sendRecoveryCodeTo(email, recoveryCode, next);
 			res.status(200).send({ message: "Recovery code email sent", token });
 		} catch (error) {
 			const err = boom.badImplementation("Error sending recovery code");

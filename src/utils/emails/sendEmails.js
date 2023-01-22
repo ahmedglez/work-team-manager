@@ -16,7 +16,7 @@ function readHTMLFile(path, callback) {
 	});
 }
 
-const sendRecoveryCodeTo = async (email, code) => {
+const sendRecoveryCodeTo = async (email, code, next) => {
 	try {
 		const user = await getUserByEmail(email);
 		const firstName = user.fullname.split(" ")[0];
@@ -65,6 +65,7 @@ const sendRecoveryCodeTo = async (email, code) => {
 		);
 	} catch (error) {
 		console.log("error on sending email", error);
+		next(error);
 	}
 };
 
