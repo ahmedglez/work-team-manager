@@ -29,7 +29,7 @@ router.post(
 	}
 );
 
-router.post("/recover-password", service.recoverPassword);
+router.post("/recover-password", service.recoveryPassword);
 
 router.post("/verify-recovery-code", service.verifyRecoveryCode);
 

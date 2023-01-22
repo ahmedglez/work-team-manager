@@ -14,7 +14,7 @@ const { signToken } = require("../utils/auth/tokens/token-sign");
 const { verifyToken } = require("../utils/auth/tokens/token-verify");
 
 const AuthServices = () => {
-	const recoverPassword = async (req, res, next) => {
+	const recoveryPassword = async (req, res, next) => {
 		try {
 			const { email } = req.body;
 			const user = await getUserByEmail(email);
@@ -122,7 +122,7 @@ const AuthServices = () => {
 };
 
 return {
-	recoverPassword,
+	recoveryPassword,
 	verifyRecoveryCode,
 	resetPassword,
 	refreshToken,
