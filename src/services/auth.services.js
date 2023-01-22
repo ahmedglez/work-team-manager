@@ -19,16 +19,15 @@ const AuthServices = () => {
 			const { email } = req.body;
 			const user = await getUserByEmail(email);
 			if (!user) {
-				const error = boom.notFound("User not found");
+				const error = boom.notFound("Email not found");
 				res.status(error.output.statusCode).json(error.output.payload);
 			}
-			const recoveryCode = Math.floor(100000 + Math.random() * 900000);
-
-			const payload = { email, recoveryCode };
-			const token = signToken(payload, { expiresIn: "15 minutes" });
-
+			const recoveryCode = Math.floor(100000 + Math.random() * 900000);			
+			await updateUser(user._id, {
+				recoveryCode: recoveryCode,
+			});
 			await sendRecoveryCodeTo(email, recoveryCode, next);
-			res.status(200).send({ message: "Recovery code email sent", token });
+			res.status(200).send({ message: "Recovery code email sent" });
 		} catch (error) {
 			const err = boom.badImplementation("Error sending email");
 			res.status(err.output.statusCode).json(err.output.payload);
@@ -37,18 +36,15 @@ const AuthServices = () => {
 
 	const verifyRecoveryCode = async (req, res, next) => {
 		try {
-			const { recoveryCode } = req.body;
-			const payload = verifyToken(req.headers.authorization.split(" ")[1]);
-			const { email } = payload;
+			const { recoveryCode, email } = req.body;
 
 			const user = await getUserByEmail(email);
-			console.log(user);
 			if (!user) {
 				const error = new Error("User not found");
 				error.status = 404;
 				throw error;
 			}
-			if (payload.recoveryCode !== recoveryCode) {
+			if (recoveryCode !== user.recoveryCode) {
 				const error = boom.unauthorized("Invalid recovery code");
 				res.status(error.output.statusCode).json(error.output.payload);
 			} else {
@@ -94,10 +90,11 @@ const AuthServices = () => {
 
 	const refreshToken = async (req, res, next) => {
 		try {
-			const { refreshToken } = req.body;
-			const payload = verifyToken(refreshToken);
+			const payload = verifyToken(req.headers.authorization.split(" ")[1]);
 			const user = await getUser(payload.sub);
+			console.log("User from refresh token", user);
 			if (!user) {
+				console.log("User not found");
 				const error = boom.notFound("User not found");
 				res.status(error.output.statusCode).json(error.output.payload);
 				next(error);

@@ -64,7 +64,6 @@ const sendRecoveryCodeTo = async (email, code) => {
 			}
 		);
 	} catch (error) {
-		console.log("error on sending email", error);
 		throw new Error("Error on sending email");
 	}
 };

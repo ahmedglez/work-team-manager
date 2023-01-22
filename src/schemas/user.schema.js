@@ -36,7 +36,7 @@ const userSchema = new Schema({
 	ci: {
 		type: String,
 		unique: true,
-		required: true,		
+		required: true,
 	},
 	address: {
 		type: String,
@@ -66,6 +66,11 @@ const userSchema = new Schema({
 		default: false,
 	},
 	recoveryCode: {
+		type: String,
+		default: null,
+	},
+
+	refreshToken: {
 		type: String,
 		default: null,
 	},

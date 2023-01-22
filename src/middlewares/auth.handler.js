@@ -1,4 +1,5 @@
 const passport = require("passport");
+const { verifyToken } = require("../utils/auth/tokens/token-verify");
 const boom = require("@hapi/boom");
 
 const checkAuth = (req, res, next) => {
@@ -8,14 +9,22 @@ const checkAuth = (req, res, next) => {
 
 const checkRoles = (...roles) => {
 	return (req, res, next) => {
-		const { user } = req;
-		const user_roles_array = Object.values(user.roles);
-		const isRolesValid = roles.every((role) => user_roles_array.includes(role));
-		if (!isRolesValid) {
-			const error = boom.unauthorized("You don't have permission to access");
-			res.status(error.output.statusCode).json(error.output.payload);
+		const payload = verifyToken(
+			req.headers.authorization.split(" ")[1]
+		);
+		if (!payload) {
+			const error = boom.unauthorized("Token is not valid");
+			next(error);
 		}
-		next();
+		const { roles: userRoles } = payload;
+		const hasRole = roles.some((role) => userRoles.includes(role));
+		if (hasRole) {
+			next();
+		}
+		else {
+			next(boom.unauthorized("You don't have permission to access"));
+		}
+		
 	};
 };
 
