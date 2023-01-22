@@ -125,6 +125,7 @@ return {
 	recoverPassword,
 	verifyRecoveryCode,
 	resetPassword,
+	refreshToken,
 };
 
 module.exports = AuthServices;
