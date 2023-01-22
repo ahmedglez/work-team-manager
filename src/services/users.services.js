@@ -204,6 +204,7 @@ const UserServices = () => {
 		setUserOfflineHandler,
 		assignNewRoleHandler,
 		deleteAssignedRoleHandler,
+		getUserbyEmailHandler,
 		deleteUserHandler,
 	};
 };

@@ -119,13 +119,13 @@ const AuthServices = () => {
 			next(error);
 		}
 	};
-};
 
-return {
-	recoveryPassword,
-	verifyRecoveryCode,
-	resetPassword,
-	refreshToken,
+	return {
+		recoveryPassword,
+		verifyRecoveryCode,
+		resetPassword,
+		refreshToken,
+	};
 };
 
 module.exports = AuthServices;
