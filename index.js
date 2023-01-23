@@ -5,6 +5,11 @@ const express = require("express");
 const cors = require("cors");
 const db = require("./src/database/connections/MongoDBConnection");
 const addRoutes = require("./src/routes/routes");
+const RateLimit = require("express-rate-limit");
+const limiter = new RateLimit({
+	windowMs: 2 * 60 * 1000, // 2 minute
+	max: 5,
+});
 /* SERVER CONFIGURATION */
 const app = require("./src/app/app");
 const port = config.development.port || 3000;
@@ -34,8 +39,11 @@ app.get("/", (req, res) => {
 addRoutes(app);
 
 /* MIDDLEWARES */
+// jsonwebtoken
 app.use(passport.initialize());
 app.use(passport.session());
+// rate limiter
+app.use(limiter);
 
 /* SERVER START */
 app.listen(port, () => {
