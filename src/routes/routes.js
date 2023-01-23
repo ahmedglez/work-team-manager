@@ -6,6 +6,8 @@ const logRouter = require("../routes/logs.routes");
 const assignmentsRouter = require("../routes/assignments.routes");
 const profileRouter = require("../routes/profile.routes");
 
+
+
 const addRoutes = (app) => {
 	app.use("/users", userRouter);
 	app.use("/", authRouter);

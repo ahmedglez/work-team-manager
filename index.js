@@ -5,6 +5,7 @@ const express = require("express");
 const cors = require("cors");
 const db = require("./src/database/connections/MongoDBConnection");
 const addRoutes = require("./src/routes/routes");
+import limiter from "./src/middlewares/rateLimiter";
 
 /* SERVER CONFIGURATION */
 const app = require("./src/app/app");
@@ -39,12 +40,6 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 /* RATE LIMITER */
-const rateLimiter = require("express-rate-limit");
-const limiter = rateLimiter({
-	windowMs: 60 * 1000, // 1 minute
-	max: 5, // limit each IP to 5 requests per windowMs
-	message: "Too many requests, please try again later",
-});
 app.use(limiter);
 
 /* SERVER START */
