@@ -2,6 +2,11 @@ const { getUserByEmail } = require("../database/crud/users.crud");
 
 const { comparePassword } = require("../utils/auth/passwordEncript");
 const { verifyToken } = require("../utils/auth/tokens/token-verify");
+const fs = require('fs')
+
+
+
+
 const ProfileServices = () => {
 	const getPersonalInformationHandler = async (req, res, next) => {
 		const token = req.headers.authorization.split(" ")[1];
@@ -10,6 +15,7 @@ const ProfileServices = () => {
 		res.status(200).json({
 			message: "User information",
 			data: user,
+			avatar: fs.readFileSync(user.avatar)
 		});
 	};
 

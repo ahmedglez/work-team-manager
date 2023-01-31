@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const path = require("path");
+const fs = require('fs')
 
 const userSchema = new Schema({
 	nickname: {
@@ -43,7 +44,7 @@ const userSchema = new Schema({
 	},
 	avatar: {
 		type: String,
-		default: path.join(__dirname, "../../assets/imgs/default-avatar.png"),
+		default: fs.readFileSync(path.join(__dirname, "../assets/imgs/default-avatar.png")),
 	},
 	assignedTasks: [
 		{
@@ -80,7 +81,7 @@ const userSchema = new Schema({
 		default: Date.now
 	},
 
-	
+
 
 
 
