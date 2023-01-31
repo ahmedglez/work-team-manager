@@ -36,10 +36,10 @@ const TaskServices = () => {
 	};
 
 	const getTasksByUserHandler = async (req, res, next) => {
-		const user = req.user;
+		const {email} = req.body;
 		try {
-			const user2 = await getUserByEmail(user.email);
-			const tasks = user2.assignedTasks;
+			const user = await getUserByEmail(email);
+			const tasks = user.assignedTasks;
 			res.status(200).json({
 				data: tasks,
 				message: "tasks listed",
