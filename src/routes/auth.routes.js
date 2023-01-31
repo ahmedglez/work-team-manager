@@ -28,10 +28,7 @@ router.post(
 				recoveryCode: null,
 				lastConnection: Date.now(),
 			});
-			/* create expiration time from 15 min from now */
-			const expirationTime = new Date();
-			expirationTime.setMinutes(expirationTime.getMinutes() + 15);
-			res.status(200).send({ token, refreshToken, expirationTime });
+			res.status(200).send({ token, refreshToken });
 		} catch (error) {
 			console.log(" Error on Auth ", error);
 			next(error);
