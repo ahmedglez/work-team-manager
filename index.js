@@ -5,7 +5,9 @@ const express = require("express");
 const cors = require("cors");
 const db = require("./src/database/connections/MongoDBConnection");
 const addRoutes = require("./src/routes/routes");
-import limiter from "./src/middlewares/rateLimiter";
+const limiter = require("./src/middlewares/rateLimiter");
+const cacheMiddleware = require("./src/middlewares/cacheMiddleware");
+
 
 
 /* SERVER CONFIGURATION */
@@ -49,6 +51,9 @@ app.use(passport.session());
 
 /* RATE LIMITER */
 app.use(limiter);
+
+/* CACHE MIDDLEWARE */
+app.use(cacheMiddleware);
 
 /* SERVER START */
 app.listen(port, () => {
