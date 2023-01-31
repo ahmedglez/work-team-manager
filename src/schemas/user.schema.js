@@ -74,6 +74,17 @@ const userSchema = new Schema({
 		type: String,
 		default: null,
 	},
+
+	lastConnection: {
+		type: Date,
+		default: Date.now
+	},
+
+	
+
+
+
+
 });
 
 const UserModel = mongoose.model("Users", userSchema);

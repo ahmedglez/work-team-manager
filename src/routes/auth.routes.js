@@ -26,6 +26,7 @@ router.post(
 			await updateUser(userDB._id, {
 				refreshToken: refreshToken,
 				recoveryCode: null,
+				lastConnection: Date.now(),
 			});
 			res.status(200).send({ token, refreshToken });
 		} catch (error) {
