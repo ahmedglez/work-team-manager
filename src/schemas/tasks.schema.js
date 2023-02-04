@@ -31,6 +31,16 @@ const taskSchema = new Schema({
 			ref: "Tools",
 		},
 	],
+	assignedBy: {
+		type: Schema.Types.ObjectId,
+		ref: "Users",
+	},
+
+	expirationDate: {
+		type: Date,
+		default: Date.now,
+	},
+
 	createdAt: {
 		type: Date,
 		default: Date.now,

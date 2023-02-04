@@ -1,6 +1,9 @@
 const { getUserByEmail } = require("../database/crud/users.crud");
 
-const { comparePassword } = require("../utils/auth/passwordEncript");
+const {
+	comparePassword,
+	hashPassword,
+} = require("../utils/auth/passwordEncript");
 const { verifyToken } = require("../utils/auth/tokens/token-verify");
 
 const ProfileServices = () => {
@@ -18,11 +21,10 @@ const ProfileServices = () => {
 		const token = req.headers.authorization.split(" ")[1];
 		const payload = verifyToken(token);
 		const user = await getUserByEmail(payload.email);
-		const { name, lastname, email, password } = req.body;
+		const data = req.body;
+		data.password = hashPassword(data.password);
 		const userUpdated = await updateUser(user._id, {
-			name,
-			lastname,
-			email,
+			...data,
 		});
 		res.status(200).json({
 			message: "User information updated",
