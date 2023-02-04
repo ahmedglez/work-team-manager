@@ -7,7 +7,11 @@ const {
 } = require("../database/crud/tasks.crud");
 const boom = require("@hapi/boom");
 
-const { getUserByEmail, getUser } = require("../database/crud/users.crud");
+const {
+	getUserByEmail,
+	getUser,
+	updateUser,
+} = require("../database/crud/users.crud");
 
 const TaskServices = () => {
 	const getAllTasksHandler = async (req, res, next) => {
@@ -36,7 +40,7 @@ const TaskServices = () => {
 	};
 
 	const getTasksByUserHandler = async (req, res, next) => {
-		const {email} = req.body;
+		const { email } = req.body;
 		try {
 			const user = await getUserByEmail(email);
 			const tasks = user.assignedTasks;
@@ -81,12 +85,17 @@ const TaskServices = () => {
 
 		try {
 			const createdTask = await createTask(task);
+			const assignedUsers = task.assignedTo;
+			assignedUsers.forEach(async (user) => {
+				const userToUpdate = await getUserByEmail(user);
+				userToUpdate.assignedTasks.push(createdTask._id);
+				await updateUser(userToUpdate._id, userToUpdate);
+			});
 			res.status(201).json({
 				data: createdTask,
 				message: "task created",
 			});
 		} catch (error) {
-			next(error);
 		}
 	};
 

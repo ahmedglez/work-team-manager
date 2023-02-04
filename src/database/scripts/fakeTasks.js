@@ -2,31 +2,30 @@ const { faker } = require("@faker-js/faker");
 const db = require("../connections/MongoDBConnection");
 const TaskModel = require("../../schemas/tasks.schema");
 const UserModel = require("../../schemas/user.schema");
+const { getUserByEmail, getUser, updateUser } = require("../crud/users.crud");
 
 const main = async () => {
 	await TaskModel.deleteMany({});
 	const users = await UserModel.find({});
-    const statuses = ["pending", "in progress", "done"];
-    const priorities = ["low", "medium", "high"];
-    const admins = users.filter(user => user.roles.includes("admin"));
-    const adminsFromDB = admins.map(admin => UserModel.findById(admin._id));
+	const statuses = ["pending", "in progress", "done"];
+	const priorities = ["low", "medium", "high"];
+	const admins = users.filter((user) => user.roles.includes("admin"));
+	const adminsFromDB = admins.map((admin) => UserModel.findById(admin._id));
 	const createFakeTasks = () => {
 		const tasks = [];
 		for (let i = 0; i < 100; i++) {
 			let randomUserID =
-                users[faker.random.numeric({ min: 0, max: users.length - 1 })]._id;
-            let randomAdminID =
-							admins[
-								Math.floor(Math.random() * adminsFromDB.length)
-							]._id;
+				users[faker.random.numeric({ min: 0, max: users.length - 1 })]._id;
+			let randomAdminID =
+				admins[Math.floor(Math.random() * adminsFromDB.length)]._id;
 			tasks.push({
 				title: faker.lorem.sentence(),
 				description: faker.lorem.paragraph(),
-                status: statuses[Math.floor(Math.random() * statuses.length)],
-                priority: priorities[Math.floor(Math.random() * priorities.length)],
-                assignedTo: [randomUserID],
-                assignedBy: randomAdminID,
-                expirationDate: faker.date.future(),
+				status: statuses[Math.floor(Math.random() * statuses.length)],
+				priority: priorities[Math.floor(Math.random() * priorities.length)],
+				assignedTo: [randomUserID],
+				assignedBy: randomAdminID,
+				expirationDate: faker.date.future(),
 				createdAt: faker.date.past(),
 				updatedAt: faker.date.recent(),
 			});
@@ -36,16 +35,28 @@ const main = async () => {
 
 	const tasks = createFakeTasks();
 	console.log(tasks);
-	console.log("Inserting tasks...");
+    console.log("Inserting tasks...");
+    users.forEach(async (user) => {
+        await updateUser(user._id, {
+            $set: { assignedTasks: [] },
+        });
+    });
 	tasks.forEach((task) => {
-		TaskModel.create(task);
+		const newTask = new TaskModel(task);
+
+		newTask.save();
+		task.assignedTo.forEach(async (user) => {
+            await updateUser(user._id, {
+							$push: { assignedTasks: newTask._id },
+						});
+		});
 	});
+
 	console.log("Tasks inserted!");
 	console.log("Tasks:");
 	TaskModel.find({}, (err, tasks) => {
 		console.log(tasks);
 	});
-
 };
 
 main();
