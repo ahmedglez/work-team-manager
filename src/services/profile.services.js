@@ -1,4 +1,4 @@
-const { getUserByEmail } = require("../database/crud/users.crud");
+const { getUserByEmail, updateUser } = require("../database/crud/users.crud");
 
 const {
 	comparePassword,
