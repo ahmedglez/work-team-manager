@@ -28,6 +28,7 @@ const whiteList = [
 	"http://192.168.43.227:3000",
 	"http://192.168.43.227:3000/dashboard",
 	"http://192.168.43.227:3000/profile",
+	"https://virtual-job-dashboard-ui.vercel.app/",
 	"https://virtual-job-dashboard-ui.vercel.app/dashboard",
 	"https://virtual-job-dashboard-ui.vercel.app/authentication/sign-in",
 	"https://virtual-job-dashboard-ui.vercel.app/profile",
@@ -37,9 +38,9 @@ const whiteList = [
 	"https://virtual-job-dashboard-ui.vercel.app/vision-ui-dashboard-react/profile",
 	"https://virtual-job-dashboard-ui.vercel.app/vision-ui-dashboard-react/vision-ui-dashboard-react",
 	"https://virtual-job-dashboard-ui.vercel.app/vision-ui-dashboard-react/vision-ui-dashboard-react/authentication/sign-in",
-	"https://virtual-job-dashboard-ui.vercel.app/",
 	"https://virtual-job-dashboard-ui-git-main-ahmedglez.vercel.app/",
 	"https://virtual-job-dashboard-a5mf7nmqr-ahmedglez.vercel.app/",
+	"https://virtual-job-dashboard-ui.vercel.app/authentication/sign-in",
 ];
 
 app.use(cors({ origin: whiteList, methods: ["GET", "POST", "PUT", "DELETE"] }));
