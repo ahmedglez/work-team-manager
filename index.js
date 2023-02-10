@@ -41,18 +41,19 @@ const whiteList = [
 	"https://virtual-job-dashboard-ui-git-main-ahmedglez.vercel.app/",
 	"https://virtual-job-dashboard-a5mf7nmqr-ahmedglez.vercel.app/",
 	"https://virtual-job-dashboard-ui.vercel.app/authentication/sign-in",
-	"https://work-team-manager-r4b1am4l0-ahmedglez.vercel.app",
-	"https://work-team-manager-r4b1am4l0-ahmedglez.vercel.app/authentication/sign-in",
-	"https://work-team-manager-r4b1am4l0-ahmedglez.vercel.app/dashboard",
-	"https://work-team-manager-r4b1am4l0-ahmedglez.vercel.app/profile",
-	"https://work-team-manager-r4b1am4l0-ahmedglez.vercel.app/vision-ui-dashboard-react",
-	"https://work-team-manager-r4b1am4l0-ahmedglez.vercel.app/vision-ui-dashboard-react/authentication/sign-in",
-	"https://work-team-manager-r4b1am4l0-ahmedglez.vercel.app/vision-ui-dashboard-react/dashboard",
-	"https://work-team-manager-r4b1am4l0-ahmedglez.vercel.app/vision-ui-dashboard-react/profile",
-
+	"virtual-job-dashboard-j7e2azgrj-ahmedglez.vercel.app",
+	"https://virtual-job-dashboard-ui.vercel.app/vision-ui-dashboard-react",
+	"https://virtual-job-dashboard-ui.vercel.app/vision-ui-dashboard-react/authentication/sign-in",
+	"https://virtual-job-dashboard-ui.vercel.app/vision-ui-dashboard-react/dashboard",
+	"https://virtual-job-dashboard-ui.vercel.app/vision-ui-dashboard-react/profile",
+	"https://virtual-job-dashboard-ui.vercel.app/vision-ui-dashboard-react/vision-ui-dashboard-react",
+	"https://virtual-job-dashboard-ui.vercel.app/vision-ui-dashboard-react/vision-ui-dashboard-react/authentication/sign-in",
+	"https://virtual-job-dashboard-ui.vercel.app/vision-ui-dashboard-react/vision-ui-dashboard-react/dashboard",
+	"https://virtual-job-dashboard-ui.vercel.app/vision-ui-dashboard-react/vision-ui-dashboard-react/profile",
+	
 ];
 
-//app.use(cors({ origin: whiteList, methods: ["GET", "POST", "PUT", "DELETE"] }));
+app.use(cors({ origin: whiteList, methods: ["GET", "POST", "PUT", "DELETE"] }));
 
 /* ROUTES */
 app.get("/", (req, res) => {
