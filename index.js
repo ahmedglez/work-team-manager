@@ -53,7 +53,7 @@ const whiteList = [
 	
 ];
 
-app.use(cors({ origin: whiteList, methods: ["GET", "POST", "PUT", "DELETE"] }));
+app.use(cors());
 
 /* ROUTES */
 app.get("/", (req, res) => {
