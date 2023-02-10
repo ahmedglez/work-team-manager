@@ -49,10 +49,10 @@ const whiteList = [
 	"https://work-team-manager-r4b1am4l0-ahmedglez.vercel.app/vision-ui-dashboard-react/authentication/sign-in",
 	"https://work-team-manager-r4b1am4l0-ahmedglez.vercel.app/vision-ui-dashboard-react/dashboard",
 	"https://work-team-manager-r4b1am4l0-ahmedglez.vercel.app/vision-ui-dashboard-react/profile",
-	
+
 ];
 
-app.use(cors({ origin: whiteList, methods: ["GET", "POST", "PUT", "DELETE"] }));
+//app.use(cors({ origin: whiteList, methods: ["GET", "POST", "PUT", "DELETE"] }));
 
 /* ROUTES */
 app.get("/", (req, res) => {
