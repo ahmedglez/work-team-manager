@@ -21,7 +21,7 @@ const ProfileServices = () => {
 		const token = req.headers.authorization.split(" ")[1];
 		const payload = verifyToken(token);
 		const user = await getUserByEmail(payload.email);
-		const { body: data } = req;
+		const { body: data } = req;		
 		const userUpdated = await updateUser(user._id, {
 			...data,
 		});
