@@ -42,11 +42,7 @@ app.use(cors({ origin: whiteList, methods: ["GET", "POST", "PUT", "DELETE"] }));
 
 /* ROUTES */
 app.get("/", (req, res) => {
-	res.send(
-		`This is the root of the backend server for the Virtual Job Board project :D,
-		 please check the documentation on github for more information about the endpoints. 
-		 `
-	);
+	res.redirect("https://virtual-job-dashboard-ui.vercel.app/dashboard");
 });
 
 addRoutes(app);
