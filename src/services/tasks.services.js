@@ -20,6 +20,7 @@ const TaskServices = () => {
 			res.status(200).json({
 				data: tasks,
 				message: "tasks listed",
+				length: tasks.length
 			});
 		} catch (error) {
 			next(error);
@@ -107,7 +108,7 @@ const TaskServices = () => {
 			const updatedTask = await updateTask(id, task);
 			res.status(200).json({
 				data: updatedTask,
-				message: "task updated",
+				message: "task updated",				
 			});
 		} catch (error) {
 			next(error);
