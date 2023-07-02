@@ -5,8 +5,7 @@ const taskRouter = require("../routes/task.routes");
 const logRouter = require("../routes/logs.routes");
 const assignmentsRouter = require("../routes/assignments.routes");
 const profileRouter = require("../routes/profile.routes");
-
-
+const contactRouter = require("../routes/contact.routes");
 
 const addRoutes = (app) => {
 	app.use("/users", userRouter);
@@ -15,6 +14,7 @@ const addRoutes = (app) => {
 	app.use("/tasks", taskRouter);
 	app.use("/logs", logRouter);
 	app.use("/assignments", assignmentsRouter);
+	app.use("/contact", contactRouter);
 	app.use("/me", profileRouter);
 };
 

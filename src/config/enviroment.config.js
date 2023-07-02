@@ -15,6 +15,7 @@ const config = {
 		email_host: process.env.EMAIL_HOST,
 		email_pass: process.env.EMAIL_PASSWORD,
 		email_user: process.env.EMAIL_USER,
+		email_contact: process.env.EMAIL_CONTACT,
 	},
 };
 

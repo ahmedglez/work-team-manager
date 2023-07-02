@@ -68,4 +68,57 @@ const sendRecoveryCodeTo = async (email, code) => {
 	}
 };
 
-module.exports = { sendRecoveryCodeTo };
+const sendContactEmailTo = async (email, name, phone, message) => {
+	try {
+		const transporter = nodemailer.createTransport(
+			smtpTransport({
+				service: "gmail",
+				host: config.development.email_host,
+				secure: true,
+				auth: {
+					user: config.development.email_user,
+					pass: config.development.email_pass,
+				},
+			})
+		);
+
+		readHTMLFile(
+			path.join(__dirname, "../../templates/emails/contact.html"),
+			function (err, html) {
+				if (err) {
+					console.log("error reading file", err);
+					return;
+				}
+
+				const template = handlebars.compile(html);
+				const replacements = {
+					name,
+					email,
+					phone,
+					subject: "Contacto",
+					message,
+				};
+				const htmlToSend = template(replacements);
+
+				const mailOptions = {
+					from: config.development.email_user,
+					to: email,
+					subject: "Contacto",
+					html: htmlToSend,
+				};
+
+				transporter.sendMail(mailOptions, function (error, info) {
+					if (error) {
+						console.log(error);
+					} else {
+						console.log("Email sent: " + info.response);
+					}
+				});
+			}
+		);
+	} catch (error) {
+		throw new Error("Error on sending email");
+	}
+};
+
+module.exports = { sendRecoveryCodeTo, sendContactEmailTo };
