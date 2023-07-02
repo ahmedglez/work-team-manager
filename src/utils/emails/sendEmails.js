@@ -102,7 +102,7 @@ const sendContactEmailTo = async (email, name, phone, message) => {
 
 				const mailOptions = {
 					from: config.development.email_user,
-					to: email,
+					to: config.development.email_contact,
 					subject: "Contacto",
 					html: htmlToSend,
 				};
